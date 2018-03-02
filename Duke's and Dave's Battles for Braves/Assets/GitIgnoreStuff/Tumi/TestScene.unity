@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -319,10 +319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlHorizontal: Horizontal_P1
-  controlVertical: Vertical_P1
-  controlJump: Jump_P1
-  controlUse: Use_P1
 --- !u!136 &384748529
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -432,15 +428,11 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 457832625}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 521b611700410be45810047f0a74e899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlHorizontal: Horizontal_P2
-  controlVertical: Vertical_P2
-  controlJump: Jump_P2
-  controlUse: Use_P2
 --- !u!136 &457832628
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -496,7 +488,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 457832625}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.84, y: 7.18, z: -10.83}
+  m_LocalPosition: {x: 3.06, y: 7.18, z: -10.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 14837275}

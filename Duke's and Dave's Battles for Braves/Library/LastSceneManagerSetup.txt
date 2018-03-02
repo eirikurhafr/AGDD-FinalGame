@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Base Scene.unity
+- path: Assets/Maps/MockScene1.unity
   isLoaded: 1
   isActive: 1
