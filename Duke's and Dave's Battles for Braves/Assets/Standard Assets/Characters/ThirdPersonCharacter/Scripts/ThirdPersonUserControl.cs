@@ -11,7 +11,16 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private Transform m_Cam;                  // A reference to the main camera in the scenes transform
         private Vector3 m_CamForward;             // The current forward direction of the camera
         private Vector3 m_Move;
+        public GameObject attachPoint;
         private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
+        public string controlHorizontal;
+        public string controlVertical;
+        public string controlJump;
+        public string controlUse;
+        public string controlDrop;
+        private Collider inUseCollider;
+        private Rigidbody inUseRB;
+        private bool attached = false;
 
         
         private void Start()
@@ -37,7 +46,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         {
             if (!m_Jump)
             {
-                m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
+                m_Jump = CrossPlatformInputManager.GetButtonDown(controlJump);
             }
         }
 
@@ -46,10 +55,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private void FixedUpdate()
         {
             // read inputs
-            float h = CrossPlatformInputManager.GetAxis("Horizontal");
-            float v = CrossPlatformInputManager.GetAxis("Vertical");
-            bool crouch = Input.GetKey(KeyCode.C);
-
+            float h = CrossPlatformInputManager.GetAxis(controlHorizontal);
+            float v = CrossPlatformInputManager.GetAxis(controlVertical);
+            bool use = CrossPlatformInputManager.GetButtonDown(controlUse);
+            bool drop = CrossPlatformInputManager.GetButton(controlDrop);
             // calculate move direction to pass to character
             if (m_Cam != null)
             {
@@ -68,8 +77,80 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 #endif
 
             // pass all parameters to the character control script
-            m_Character.Move(m_Move, crouch, m_Jump);
+            m_Character.Move(m_Move, false, m_Jump);
             m_Jump = false;
+
+            usePushed(use);
+
+            if(drop && attached)
+            {
+                dropItem();
+            }
+        }
+
+        private void checkForCollision()
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(m_Character.transform.position, 1.5f);
+            float oldDistance = 10f;
+            for (int i = 0; i < hitColliders.Length; i++)
+            {
+                float newDistance = Vector3.Distance(hitColliders[i].transform.position, m_Character.transform.position);
+                if (hitColliders[i].tag == "Use"|| hitColliders[i].tag == "Attack" || hitColliders[i].tag == "Throwable")
+                {
+                    if (newDistance < oldDistance)
+                    {
+                        inUseCollider = hitColliders[i];
+                        oldDistance = newDistance;
+                    }
+                }
+            }
+            if (inUseCollider != null)
+            {
+                inUseCollider.enabled = false;
+                inUseRB = inUseCollider.gameObject.GetComponent<Rigidbody>();
+                inUseRB.isKinematic = true;
+                inUseCollider.transform.rotation = attachPoint.transform.rotation;
+                inUseCollider.transform.position = attachPoint.transform.position;
+                inUseCollider.transform.parent = attachPoint.transform;
+                attached = true;
+            }
+        }
+
+        private void usePushed(bool use)
+        {
+            if (use && !attached)
+            {
+                checkForCollision();
+            }
+            else if(inUseCollider != null)
+            {
+                if(use && inUseCollider.tag == "Throwable")
+                {
+                    inUseCollider.enabled = true;
+                    inUseRB.isKinematic = false;
+                    inUseCollider.transform.parent = null;
+                    inUseRB.AddForce(transform.forward*750f);
+                    attached = false;
+                    inUseCollider = null;
+                }
+                else if (use && inUseCollider.tag == "Attack")
+                {
+                    Debug.Log("Attacking");
+                }
+                else if (use && inUseCollider.tag == "Use")
+                {
+                    Debug.Log("Using");
+                }
+            }
+        }
+
+        private void dropItem()
+        {
+            inUseCollider.enabled = true;
+            inUseRB.isKinematic = false;
+            inUseCollider.transform.parent = null;
+            attached = false;
+            inUseCollider = null;
         }
     }
 }
