@@ -1,4 +1,0 @@
-sceneSetups:
-- path: Assets/GitIgnoreStuff/Tumi/TestScene.unity
-  isLoaded: 1
-  isActive: 1
