@@ -42,6 +42,10 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			m_OrigGroundCheckDistance = m_GroundCheckDistance;
 		}
 
+        public bool getGrounded()
+        {
+            return m_IsGrounded;
+        }
 
 		public void Move(Vector3 move, bool crouch, bool jump)
 		{
@@ -221,5 +225,6 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 				m_Animator.applyRootMotion = false;
 			}
 		}
+
 	}
 }

@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Maps/MockScene1.unity
+- path: Assets/GitIgnoreStuff/Tumi/TestScene.unity
   isLoaded: 1
   isActive: 1

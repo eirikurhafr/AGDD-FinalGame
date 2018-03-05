@@ -9,6 +9,7 @@ TagManager:
   - Throwable
   - Attack
   - Use
+  - UseJump
   layers:
   - Default
   - TransparentFX
