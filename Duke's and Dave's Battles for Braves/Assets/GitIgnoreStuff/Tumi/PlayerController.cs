@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour {
     public bool inUse = false;
     public GameObject objectInUse;
     public GameObject attachPoint;
+    public float health;
 
     // Use this for initialization
     void Start () {
@@ -34,6 +35,7 @@ public class PlayerController : MonoBehaviour {
         {
             otherPlayer = GameObject.Find("Player_1").GetComponent<PlayerController>();
         }
+        health = 100;
     }
 
     // Update is called once per frame
@@ -154,5 +156,11 @@ public class PlayerController : MonoBehaviour {
         {
             Debug.Log("Using");
         }
+    }
+
+    public void hurtFunction(float healthAltered)
+    {
+        health -= healthAltered;
+        Debug.Log(health);
     }
 }
