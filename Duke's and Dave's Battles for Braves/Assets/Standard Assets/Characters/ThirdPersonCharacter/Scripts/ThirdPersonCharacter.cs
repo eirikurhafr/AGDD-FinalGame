@@ -65,7 +65,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 			// control and velocity handling is different when grounded and airborne:
 			if (m_IsGrounded)
 			{
-				HandleGroundedMovement(crouch, jump);
+				//HandleGroundedMovement(crouch, jump);
 			}
 			else
 			{
@@ -167,16 +167,27 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 		}
 
 
-		void HandleGroundedMovement(bool crouch, bool jump)
+        public void HandleGroundedMovement(bool crouch, bool jump, bool superJump)
 		{
-			// check whether conditions are right to allow a jump:
-			if (jump && !crouch && m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
+            // check whether conditions are right to allow a jump:
+            if (jump && !crouch && m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
 			{
-				// jump!
-				m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
-				m_IsGrounded = false;
-				m_Animator.applyRootMotion = false;
-				m_GroundCheckDistance = 0.1f;
+                if(!superJump)
+                {
+                    // jump!
+                    m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
+                    m_IsGrounded = false;
+                    m_Animator.applyRootMotion = false;
+                    m_GroundCheckDistance = 0.1f;
+                }
+                else
+                {
+                    m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, 15f, m_Rigidbody.velocity.z);
+                    m_IsGrounded = false;
+                    m_Animator.applyRootMotion = false;
+                    m_GroundCheckDistance = 0.1f;
+                }
+				
 			}
 		}
 

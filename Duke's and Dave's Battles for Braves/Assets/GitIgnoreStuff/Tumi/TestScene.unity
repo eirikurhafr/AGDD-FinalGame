@@ -402,13 +402,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9f1568d3220ea47a3553cbe00b314e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crouching: 0
   rb: {fileID: 0}
   controlUse: Use_P1
   controlInteract: Interact_P1
   controlDrop: Drop_P1
+  controlCrouch: Crouch_P1
+  controlJump: Jump_P1
   inUse: 0
   objectInUse: {fileID: 0}
   attachPoint: {fileID: 2036281949}
+  health: 0
 --- !u!1 &457832625
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,13 +544,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab9f1568d3220ea47a3553cbe00b314e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crouching: 0
   rb: {fileID: 0}
   controlUse: Use_P2
   controlInteract: Interact_P2
   controlDrop: Drop_P2
+  controlCrouch: Crouch_P2
+  controlJump: Jump_P2
   inUse: 0
   objectInUse: {fileID: 0}
   attachPoint: {fileID: 1286165765}
+  health: 0
 --- !u!1001 &472481358
 Prefab:
   m_ObjectHideFlags: 0

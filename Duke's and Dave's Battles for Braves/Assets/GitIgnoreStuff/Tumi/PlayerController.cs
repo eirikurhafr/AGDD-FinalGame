@@ -10,10 +10,14 @@ public class PlayerController : MonoBehaviour {
     private ThirdPersonCharacter m_Character;
     private PlayerController otherPlayer;
     private ThirdPersonUserControl userControl;
+    private bool superJump = false;
+    public bool crouching = false;
     public Rigidbody rb;
     public string controlUse;
     public string controlInteract;
     public string controlDrop;
+    public string controlCrouch;
+    public string controlJump;
     private Collider inUseCollider;
     private Rigidbody inUseRB;
     private bool attached = false;
@@ -44,18 +48,18 @@ public class PlayerController : MonoBehaviour {
         bool interact = CrossPlatformInputManager.GetButtonDown(controlInteract);
         bool drop = CrossPlatformInputManager.GetButton(controlDrop);
         bool use = CrossPlatformInputManager.GetButtonDown(controlUse);
+        bool crouch = CrossPlatformInputManager.GetButton(controlCrouch);
+        bool jump = CrossPlatformInputManager.GetButtonDown(controlJump);
         if (!inUse)
         {
             interactPushed(interact);
-
+            jumpPushed(jump);
             if (drop && attached)
             {
                 dropPushed();
             }
-            if(use && attached)
-            {
-                usePushed(use);
-            }
+            crouchPushed(crouch);
+            usePushed(use);
         }
     }
 
@@ -66,7 +70,7 @@ public class PlayerController : MonoBehaviour {
         for (int i = 0; i < hitColliders.Length; i++)
         {
             float newDistance = Vector3.Distance(hitColliders[i].transform.position, m_Character.transform.position);
-            if (hitColliders[i].tag == "UseJump" || hitColliders[i].tag == "Throwable")
+            if (hitColliders[i].tag == "Throwable")
             {
                 if (newDistance < oldDistance)
                 {
@@ -74,30 +78,44 @@ public class PlayerController : MonoBehaviour {
                     oldDistance = newDistance;
                 }
             }
+            else if(hitColliders[i].tag == "Player")
+            {
+                if(otherPlayer.crouching == true)
+                {
+                    superJump = true;
+                }
+            }
         }
     }
 
-    public void toggleInUse()
+    public void jumpPushed(bool jump)
     {
-        if(!inUse)
+        if(jump)
         {
-            inUse = true;
-            userControl.crouch = true;
-            userControl.inUse = true;
+            Collider[] hitColliders = Physics.OverlapSphere(m_Character.transform.position, 1.5f);
+            for (int i = 0; i < hitColliders.Length; i++)
+            {
+                if (hitColliders[i].tag == "Player" && otherPlayer.crouching)
+                {
+                    superJump = true;
+                    break;
+                }
+            }
+            m_Character.HandleGroundedMovement(crouching, jump, superJump);
+            superJump = false;
         }
-        else
-        {
-            inUse = false;
-            userControl.crouch = false;
-            userControl.inUse = false;
-            inUseCollider = null;
-        }
+    }
+
+    public void crouchPushed(bool crouch)
+    {
+        userControl.crouch = crouch;
+        crouching = crouch;
     }
 
     //When the player wants to interact with something
     private void interactPushed(bool interact)
     {
-        if (interact && !attached)
+        /*if (interact && !attached)
         {
             checkForCollision();
             if (inUseCollider != null)
@@ -123,7 +141,7 @@ public class PlayerController : MonoBehaviour {
                     rb.AddForce(0, 15, 0, ForceMode.Impulse);
                 }
             }
-        }
+        }*/
     }
 
     //When the player wants to drop the item he is carrying
@@ -139,22 +157,48 @@ public class PlayerController : MonoBehaviour {
     //When the player wants to use the item he is carrying
     private void usePushed(bool use)
     {
-        if (inUseCollider.tag == "Throwable")
+        if (use && !attached)
         {
-            inUseCollider.enabled = true;
-            inUseRB.isKinematic = false;
-            inUseCollider.transform.parent = null;
-            inUseRB.AddForce(transform.forward * 750f);
-            attached = false;
-            inUseCollider = null;
+            checkForCollision();
+            if (inUseCollider != null)
+            {
+                if (inUseCollider.tag == "Throwable")
+                {
+                    inUseCollider.enabled = false;
+                    inUseRB = inUseCollider.gameObject.GetComponent<Rigidbody>();
+                    inUseRB.isKinematic = true;
+                    inUseCollider.transform.rotation = attachPoint.transform.rotation;
+                    inUseCollider.transform.position = attachPoint.transform.position;
+                    inUseCollider.transform.parent = attachPoint.transform;
+                    attached = true;
+                }
+                else if (inUseCollider.tag == "UseJump" && inUseCollider == otherPlayer.inUseCollider)
+                {
+                    
+                    inUseCollider = null;
+                    rb.AddForce(0, 15, 0, ForceMode.Impulse);
+                }
+            }
         }
-        else if (inUseCollider.tag == "Attack")
+        else if (use && attached)
         {
-            Debug.Log("Attacking");
-        }
-        else if (inUseCollider.tag == "Use")
-        {
-            Debug.Log("Using");
+            if (inUseCollider.tag == "Throwable")
+            {
+                inUseCollider.enabled = true;
+                inUseRB.isKinematic = false;
+                inUseCollider.transform.parent = null;
+                inUseRB.AddForce(transform.forward * 750f);
+                attached = false;
+                inUseCollider = null;
+            }
+            else if (inUseCollider.tag == "Attack")
+            {
+                Debug.Log("Attacking");
+            }
+            else if (inUseCollider.tag == "Use")
+            {
+                Debug.Log("Using");
+            }
         }
     }
 
