@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace UnityStandardAssets.Characters.ThirdPerson
 {
@@ -32,7 +34,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
 		void Start()
 		{
-			m_Animator = GetComponent<Animator>();
+            m_Animator = GetComponent<Animator>();
 			m_Rigidbody = GetComponent<Rigidbody>();
 			m_Capsule = GetComponent<CapsuleCollider>();
 			m_CapsuleHeight = m_Capsule.height;
@@ -169,10 +171,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         public void HandleGroundedMovement(bool crouch, bool jump, bool superJump)
 		{
+            m_Animator.SetBool("SuperJump", superJump);
             // check whether conditions are right to allow a jump:
             if (jump && !crouch && m_Animator.GetCurrentAnimatorStateInfo(0).IsName("Grounded"))
 			{
-                if(!superJump)
+                if (!superJump)
                 {
                     // jump!
                     m_Rigidbody.velocity = new Vector3(m_Rigidbody.velocity.x, m_JumpPower, m_Rigidbody.velocity.z);
@@ -187,8 +190,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
                     m_Animator.applyRootMotion = false;
                     m_GroundCheckDistance = 0.1f;
                 }
-				
-			}
+            }
 		}
 
 		void ApplyExtraTurnRotation()

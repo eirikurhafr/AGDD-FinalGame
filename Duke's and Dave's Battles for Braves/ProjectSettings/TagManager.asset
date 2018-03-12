@@ -9,6 +9,9 @@ TagManager:
   - Throwable
   - Attack
   - Interact
+  - Fire
+  - Player_1
+  - Player_2
   layers:
   - Default
   - TransparentFX

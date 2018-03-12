@@ -15,6 +15,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         public bool crouch = false;
         public bool inUse = false;
         public bool dead = false;
+        public bool lockMovement = false;
         public string controlHorizontal;
         public string controlVertical;
         public string controlJump;
@@ -52,7 +53,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
-            if(!dead)
+            if(!dead && !lockMovement)
             {
                 HandleGroundControl();
                 HandleAirControl();

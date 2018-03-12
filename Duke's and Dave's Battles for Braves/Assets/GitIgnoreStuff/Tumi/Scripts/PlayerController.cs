@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
-using UnityStandardAssets.Characters.ThirdPerson;
-
 
 public class PlayerController : MonoBehaviour {
 
-    private ThirdPersonCharacter m_Character;
+    private Character m_Character;
     private PlayerController otherPlayer;
-    private ThirdPersonUserControl userControl;
+    private UserControl userControl;
+    private SoundController sound;
     private Animator m_Animator;
     public GameObject sword;
     public GameObject swordAir;
@@ -24,19 +23,22 @@ public class PlayerController : MonoBehaviour {
     public string controlJump;
     public string controlAttack;
     private Collider inUseCollider;
+    private Collider inUseItem;
+    private Collider inUseInteract;
     private Rigidbody inUseRB;
     private bool attached = false;
     public GameObject objectInUse;
     public GameObject attachPoint;
-    private float health;
+    public float health;
 
 
     // Use this for initialization
     void Start () {
         m_Animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        m_Character = GetComponent<ThirdPersonCharacter>();
-        userControl = GetComponent<ThirdPersonUserControl>();
+        m_Character = GetComponent<Character>();
+        userControl = GetComponent<UserControl>();
+        sound = GetComponent<SoundController>();
         if(m_Character.name == "Player_1")
         {
             otherPlayer = GameObject.Find("Player_2").GetComponent<PlayerController>();
@@ -59,15 +61,27 @@ public class PlayerController : MonoBehaviour {
 
         if (!dead)
         {
+            m_Animator.SetBool("SuperJump", false);
             bool interact = CrossPlatformInputManager.GetButtonDown(controlInteract);
             bool drop = CrossPlatformInputManager.GetButton(controlDrop);
             bool use = CrossPlatformInputManager.GetButtonDown(controlUse);
             bool jump = CrossPlatformInputManager.GetButtonDown(controlJump);
             bool attack = CrossPlatformInputManager.GetButtonDown(controlAttack);
-            float crouchFloat = CrossPlatformInputManager.GetAxis(controlCrouch);
+            float crouchFloat;
             bool crouch = false;
-            if (crouchFloat < 0)
-                crouch = true;
+
+            if(controlCrouch == "Crouch_Keyboard_P1" || controlCrouch == "Crouch_Keyboard_P2")
+            {
+                crouch = CrossPlatformInputManager.GetButton(controlCrouch);
+            }
+            else
+            {
+                crouchFloat = CrossPlatformInputManager.GetAxis(controlCrouch);
+                crouch = false;
+                if (crouchFloat < 0)
+                    crouch = true;
+            }
+            
             interactPushed(interact);
             jumpPushed(jump);
             dropPushed(drop);
@@ -80,6 +94,12 @@ public class PlayerController : MonoBehaviour {
     public bool getDead()
     {
         return dead;
+    }
+
+    private void enableMovement()
+    {
+        m_Animator.SetBool("Interact", false);
+        userControl.lockMovement = false;
     }
 
     private void enableSword()
@@ -95,16 +115,25 @@ public class PlayerController : MonoBehaviour {
     private void checkForCollision()
     {
         Collider[] hitColliders = Physics.OverlapSphere(m_Character.transform.position, 1.5f);
-        float oldDistance = 10f;
+        float oldDistanceItem = 10f;
+        float oldDistanceInteract = 10f;
         for (int i = 0; i < hitColliders.Length; i++)
         {
             float newDistance = Vector3.Distance(hitColliders[i].transform.position, m_Character.transform.position);
-            if (hitColliders[i].tag == "Interact" || hitColliders[i].tag == "Throwable")
+            if (hitColliders[i].tag == "Throwable")
             {
-                if (newDistance < oldDistance)
+                if (newDistance < oldDistanceItem)
                 {
-                    inUseCollider = hitColliders[i];
-                    oldDistance = newDistance;
+                    inUseItem = hitColliders[i];
+                    oldDistanceItem = newDistance;
+                }
+            }
+            else if(hitColliders[i].tag == "Interact")
+            {
+                if (newDistance < oldDistanceInteract)
+                {
+                    inUseInteract = hitColliders[i];
+                    oldDistanceInteract = newDistance;
                 }
             }
             else if(hitColliders[i].tag == "Player")
@@ -124,7 +153,7 @@ public class PlayerController : MonoBehaviour {
             Collider[] hitColliders = Physics.OverlapSphere(m_Character.transform.position, 1.5f);
             for (int i = 0; i < hitColliders.Length; i++)
             {
-                if (hitColliders[i].tag == "Player" && otherPlayer.crouching)
+                if (hitColliders[i].tag == otherPlayer.tag && otherPlayer.crouching)
                 {
                     superJump = true;
                     break;
@@ -147,43 +176,17 @@ public class PlayerController : MonoBehaviour {
         if(interact)
         {
             checkForCollision();
-            if (inUseCollider != null)
+            if (inUseInteract != null)
             {
-                Debug.Log(inUseCollider.tag);
-                if (inUseCollider.tag == "Interact")
-                {
-                    Debug.Log("Found");
-                    inUseCollider.SendMessage("Use");
-                }
+                var lookPos = inUseInteract.transform.position - transform.position;
+                lookPos.y = 0;
+                transform.rotation = Quaternion.LookRotation(lookPos);
+                m_Animator.SetBool("Interact", interact);
+                inUseInteract.SendMessage("Use");
+                userControl.lockMovement = true;
             }
+            inUseInteract = null;
         }
-        /*if (interact && !attached)
-        {
-            checkForCollision();
-            if (inUseCollider != null)
-            {
-                if (inUseCollider.tag == "Throwable")
-                {
-                    inUseCollider.enabled = false;
-                    inUseRB = inUseCollider.gameObject.GetComponent<Rigidbody>();
-                    inUseRB.isKinematic = true;
-                    inUseCollider.transform.rotation = attachPoint.transform.rotation;
-                    inUseCollider.transform.position = attachPoint.transform.position;
-                    inUseCollider.transform.parent = attachPoint.transform;
-                    attached = true;
-                }
-                else if (inUseCollider.tag == "UseJump" && inUseCollider != otherPlayer.inUseCollider)
-                {
-                    toggleInUse();
-                }
-                else if (inUseCollider.tag == "UseJump" && inUseCollider == otherPlayer.inUseCollider)
-                {
-                    otherPlayer.toggleInUse();
-                    inUseCollider = null;
-                    rb.AddForce(0, 15, 0, ForceMode.Impulse);
-                }
-            }
-        }*/
     }
 
     //When the player wants to drop the item he is carrying
@@ -191,25 +194,28 @@ public class PlayerController : MonoBehaviour {
     {
         if(drop && attached)
         {
-            inUseCollider.enabled = true;
+            inUseItem.enabled = true;
             inUseRB.isKinematic = false;
-            inUseCollider.transform.parent = null;
+            inUseItem.transform.parent = null;
             attached = false;
-            inUseCollider = null;
+            inUseItem = null;
         }
     }
 
     private void attackPushed(bool attack)
     {
         if (m_Character.m_IsGrounded)
-        {        
+        {
             m_Animator.SetBool("AttackingGrounded", attack);
         }
         else if (!m_Character.m_IsGrounded)
         {
             m_Animator.SetBool("AttackingAirborne", attack);
-            swordAir.SetActive(true);
-            sword.SetActive(false);
+            if(attack)
+            {
+                swordAir.SetActive(true);
+                sword.SetActive(false);
+            }
         }
     }
 
@@ -219,36 +225,39 @@ public class PlayerController : MonoBehaviour {
         if (use && !attached)
         {
             checkForCollision();
-            if (inUseCollider != null)
+            if (inUseItem != null)
             {
-                if (inUseCollider.tag == "Throwable")
+                sound.playPickup();
+                if (inUseItem.tag == "Throwable")
                 {
-                    inUseCollider.enabled = false;
-                    inUseRB = inUseCollider.gameObject.GetComponent<Rigidbody>();
+                    inUseItem.enabled = false;
+                    inUseRB = inUseItem.gameObject.GetComponent<Rigidbody>();
                     inUseRB.isKinematic = true;
-                    inUseCollider.transform.rotation = attachPoint.transform.rotation;
-                    inUseCollider.transform.position = attachPoint.transform.position;
-                    inUseCollider.transform.parent = attachPoint.transform;
+                    inUseItem.transform.rotation = attachPoint.transform.rotation;
+                    inUseItem.transform.position = attachPoint.transform.position;
+                    inUseItem.transform.parent = attachPoint.transform;
                     attached = true;
                 }
             }
         }
         else if (use && attached)
         {
-            if (inUseCollider.tag == "Throwable")
+            if (inUseItem.tag == "Throwable")
             {
-                inUseCollider.enabled = true;
+                sound.playThrow();
+                inUseItem.enabled = true;
                 inUseRB.isKinematic = false;
-                inUseCollider.transform.parent = null;
+                inUseItem.transform.parent = null;
                 inUseRB.AddForce(transform.forward * 750f);
                 attached = false;
-                inUseCollider = null;
+                inUseItem = null;
             }
         }
     }
 
     public void hurtFunction(float healthAltered)
     {
+        sound.playHurt();
         health -= healthAltered;
         if(health <= 0)
         {
