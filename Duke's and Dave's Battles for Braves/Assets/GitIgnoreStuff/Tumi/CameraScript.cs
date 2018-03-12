@@ -4,22 +4,46 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
 
-    public Transform t1;
-    public Transform t2;
+    public GameObject t1;
+    public GameObject t2;
+    private PlayerController player1;
+    private PlayerController player2;
     public GameObject self;
     public Camera cam;
     public Vector3 oldLoc;
+    public Vector3 offsetSolo;
 
     // Use this for initialization
     void Start()
     {
+        offsetSolo.x = -0.146084f;
+        offsetSolo.y = 9.238083f;
+        offsetSolo.z = -5.30064f;
+        player1 = t1.GetComponent<PlayerController>();
+        player2 = t2.GetComponent<PlayerController>();
         cam = self.GetComponent<Camera>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        FixedCameraFollowSmooth(cam, t1, t2);
+        if (!player1.getDead() && !player2.getDead())
+        {
+            FixedCameraFollowSmooth(cam, t1.transform, t2.transform);
+        }
+        else if (player1.getDead())
+        {
+            OnePlayerCamera(t2.transform);
+        }
+        else if (player2.getDead())
+        {
+            OnePlayerCamera(t1.transform);
+        }
+    }
+
+    public void OnePlayerCamera(Transform player)
+    {
+        cam.transform.position = player.position + offsetSolo;
     }
 
     public void FixedCameraFollowSmooth(Camera cam, Transform t1, Transform t2)
