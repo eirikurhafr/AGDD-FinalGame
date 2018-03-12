@@ -14,11 +14,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
         public bool crouch = false;
         public bool inUse = false;
+        public bool dead = false;
         public string controlHorizontal;
         public string controlVertical;
         public string controlJump;
         private Rigidbody rb;
-
 
         private void Start()
         {
@@ -42,7 +42,7 @@ namespace UnityStandardAssets.Characters.ThirdPerson
 
         private void Update()
         {
-            if (!m_Jump)
+            if (!m_Jump && !dead)
             {
                 m_Jump = CrossPlatformInputManager.GetButtonDown(controlJump);
             }
@@ -52,8 +52,11 @@ namespace UnityStandardAssets.Characters.ThirdPerson
         // Fixed update is called in sync with physics
         private void FixedUpdate()
         {
-            HandleGroundControl();
-            HandleAirControl();
+            if(!dead)
+            {
+                HandleGroundControl();
+                HandleAirControl();
+            }
         }
 
         private void HandleAirControl()

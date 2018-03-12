@@ -10,24 +10,30 @@ public class PlayerController : MonoBehaviour {
     private ThirdPersonCharacter m_Character;
     private PlayerController otherPlayer;
     private ThirdPersonUserControl userControl;
+    private Animator m_Animator;
+    public GameObject sword;
+    public GameObject swordAir;
     private bool superJump = false;
     public bool crouching = false;
+    private bool dead = false;
     public Rigidbody rb;
     public string controlUse;
     public string controlInteract;
     public string controlDrop;
     public string controlCrouch;
     public string controlJump;
+    public string controlAttack;
     private Collider inUseCollider;
     private Rigidbody inUseRB;
     private bool attached = false;
-    public bool inUse = false;
     public GameObject objectInUse;
     public GameObject attachPoint;
-    public float health;
+    private float health;
+
 
     // Use this for initialization
     void Start () {
+        m_Animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         m_Character = GetComponent<ThirdPersonCharacter>();
         userControl = GetComponent<ThirdPersonUserControl>();
@@ -45,22 +51,45 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     private void FixedUpdate()
     {
-        bool interact = CrossPlatformInputManager.GetButtonDown(controlInteract);
-        bool drop = CrossPlatformInputManager.GetButton(controlDrop);
-        bool use = CrossPlatformInputManager.GetButtonDown(controlUse);
-        bool crouch = CrossPlatformInputManager.GetButton(controlCrouch);
-        bool jump = CrossPlatformInputManager.GetButtonDown(controlJump);
-        if (!inUse)
+        if (m_Character.m_IsGrounded)
         {
+            swordAir.SetActive(false);
+            sword.SetActive(true);
+        }
+
+        if (!dead)
+        {
+            bool interact = CrossPlatformInputManager.GetButtonDown(controlInteract);
+            bool drop = CrossPlatformInputManager.GetButton(controlDrop);
+            bool use = CrossPlatformInputManager.GetButtonDown(controlUse);
+            bool jump = CrossPlatformInputManager.GetButtonDown(controlJump);
+            bool attack = CrossPlatformInputManager.GetButtonDown(controlAttack);
+            float crouchFloat = CrossPlatformInputManager.GetAxis(controlCrouch);
+            bool crouch = false;
+            if (crouchFloat < 0)
+                crouch = true;
             interactPushed(interact);
             jumpPushed(jump);
-            if (drop && attached)
-            {
-                dropPushed();
-            }
+            dropPushed(drop);
             crouchPushed(crouch);
             usePushed(use);
+            attackPushed(attack);
         }
+    }
+
+    public bool getDead()
+    {
+        return dead;
+    }
+
+    private void enableSword()
+    {
+        sword.SendMessage("turnOnCollider");
+    }
+
+    private void disableSword()
+    {
+        sword.SendMessage("turnOffCollider");
     }
 
     private void checkForCollision()
@@ -115,6 +144,10 @@ public class PlayerController : MonoBehaviour {
     //When the player wants to interact with something
     private void interactPushed(bool interact)
     {
+        if(interact)
+        {
+            hurtFunction(101);
+        }
         /*if (interact && !attached)
         {
             checkForCollision();
@@ -145,13 +178,30 @@ public class PlayerController : MonoBehaviour {
     }
 
     //When the player wants to drop the item he is carrying
-    private void dropPushed()
+    private void dropPushed(bool drop)
     {
-        inUseCollider.enabled = true;
-        inUseRB.isKinematic = false;
-        inUseCollider.transform.parent = null;
-        attached = false;
-        inUseCollider = null;
+        if(drop && attached)
+        {
+            inUseCollider.enabled = true;
+            inUseRB.isKinematic = false;
+            inUseCollider.transform.parent = null;
+            attached = false;
+            inUseCollider = null;
+        }
+    }
+
+    private void attackPushed(bool attack)
+    {
+        if (m_Character.m_IsGrounded)
+        {        
+            m_Animator.SetBool("AttackingGrounded", attack);
+        }
+        else if (!m_Character.m_IsGrounded)
+        {
+            m_Animator.SetBool("AttackingAirborne", attack);
+            swordAir.SetActive(true);
+            sword.SetActive(false);
+        }
     }
 
     //When the player wants to use the item he is carrying
@@ -205,6 +255,12 @@ public class PlayerController : MonoBehaviour {
     public void hurtFunction(float healthAltered)
     {
         health -= healthAltered;
-        Debug.Log(health);
+        if(health <= 0)
+        {
+            dead = true;
+            userControl.dead = true;
+            m_Animator.SetBool("Death", true);
+            rb.velocity = new Vector3(0, 0, 0);
+        }
     }
 }

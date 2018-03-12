@@ -25,6 +25,7 @@ public class RobberBadDude: MonoBehaviour {
     private float waitForDamage;
 
     void Start () {
+        health = 100;
         isAlive = true;
         transform = GetComponent<Transform>();
         agent = GetComponent<NavMeshAgent>();
@@ -52,6 +53,15 @@ public class RobberBadDude: MonoBehaviour {
             }
         }
         waitForDamage -= Time.deltaTime;
+    }
+
+    private void hurt(float damage)
+    {
+        health -= damage;
+        if(health < 0)
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnTriggerEnter(Collider other){
