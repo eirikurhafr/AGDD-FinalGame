@@ -8,8 +8,7 @@ TagManager:
   - Pickup
   - Throwable
   - Attack
-  - Use
-  - UseJump
+  - Interact
   layers:
   - Default
   - TransparentFX

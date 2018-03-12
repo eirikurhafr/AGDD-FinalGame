@@ -26,7 +26,6 @@ public class SwordHandler : MonoBehaviour {
         if(other.tag != "Player")
         {
             other.SendMessage("hurt", 50);
-            Debug.Log("Snerti");
         }
     }
 }

@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour {
         for (int i = 0; i < hitColliders.Length; i++)
         {
             float newDistance = Vector3.Distance(hitColliders[i].transform.position, m_Character.transform.position);
-            if (hitColliders[i].tag == "Throwable")
+            if (hitColliders[i].tag == "Interact" || hitColliders[i].tag == "Throwable")
             {
                 if (newDistance < oldDistance)
                 {
@@ -146,7 +146,16 @@ public class PlayerController : MonoBehaviour {
     {
         if(interact)
         {
-            hurtFunction(101);
+            checkForCollision();
+            if (inUseCollider != null)
+            {
+                Debug.Log(inUseCollider.tag);
+                if (inUseCollider.tag == "Interact")
+                {
+                    Debug.Log("Found");
+                    inUseCollider.SendMessage("Use");
+                }
+            }
         }
         /*if (interact && !attached)
         {
@@ -222,12 +231,6 @@ public class PlayerController : MonoBehaviour {
                     inUseCollider.transform.parent = attachPoint.transform;
                     attached = true;
                 }
-                else if (inUseCollider.tag == "UseJump" && inUseCollider == otherPlayer.inUseCollider)
-                {
-                    
-                    inUseCollider = null;
-                    rb.AddForce(0, 15, 0, ForceMode.Impulse);
-                }
             }
         }
         else if (use && attached)
@@ -240,14 +243,6 @@ public class PlayerController : MonoBehaviour {
                 inUseRB.AddForce(transform.forward * 750f);
                 attached = false;
                 inUseCollider = null;
-            }
-            else if (inUseCollider.tag == "Attack")
-            {
-                Debug.Log("Attacking");
-            }
-            else if (inUseCollider.tag == "Use")
-            {
-                Debug.Log("Using");
             }
         }
     }
