@@ -18,7 +18,9 @@ public class LeverScript : MonoBehaviour {
 		
 	}*/
 
-    void pullLever() {
+    
+
+    void Use() {
         isActive = !isActive;
         if (isActive) {
             foreach (GameObject x in effectedGameObjects) {
@@ -29,6 +31,10 @@ public class LeverScript : MonoBehaviour {
             {
                 x.SendMessage("deactivateObject");
             }
+        }
+
+        foreach (GameObject g in effectedGameObjects) {
+            g.SendMessage("Use");
         }
     }
 }
