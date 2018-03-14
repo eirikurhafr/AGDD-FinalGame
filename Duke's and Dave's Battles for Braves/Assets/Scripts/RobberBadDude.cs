@@ -65,17 +65,23 @@ public class RobberBadDude: MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other){
-        if (other.gameObject.tag == "Player" && waitForDamage <= 0) {
+        var foreignObject = other.gameObject.tag == "Player_1" ? "Player_1" : (other.gameObject.tag == "Player_2" ? "Player_2" : "null");
+        if (other.gameObject.tag == foreignObject && waitForDamage <= 0 && !(other.transform.position.y >= transform.position.y + 2)) {
             GameObject playerHurt = new GameObject();
             if (other.gameObject.name == targets[0].name) {
                 Debug.Log("Damage: " + targets[0].name);
                 targets[0].SendMessage("hurtFunction", damage);
             }
-            else if(other.gameObject.name == targets[0].name) {
-                Debug.Log("Damage: " + targets[2].name);
+            else if(other.gameObject.name == targets[1].name) {
+                Debug.Log("Damage: " + targets[1].name);
                 targets[1].SendMessage("hurtFunction", damage);
             }
             waitForDamage = 2f;
+        }
+        else if (other.gameObject.tag == foreignObject && (other.transform.position.y >= transform.position.y + 2))
+        {
+            health = 0;
+            Debug.Log("ahhhhh" + health);
         }
 
         if (other.gameObject.tag == "Throwable" ) {
