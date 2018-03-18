@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SwordHandler : MonoBehaviour {
+public class swordHandlerSimpleEnemy : MonoBehaviour {
 
     Collider collider;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         collider = GetComponent<Collider>();
     }
 
@@ -23,10 +24,10 @@ public class SwordHandler : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name + " og " + other.tag);
-        if(other.tag == "Enemy")
+        Debug.Log(other.name);
+        if (other.tag == "Player_1" || other.tag == "Player_2")
         {
-            other.SendMessage("hurt", 50);
+            other.SendMessage("hurtFunction", 50);
         }
     }
 }
