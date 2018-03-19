@@ -8,8 +8,11 @@ TagManager:
   - Pickup
   - Throwable
   - Attack
-  - Use
-  - UseJump
+  - Interact
+  - Fire
+  - Player_1
+  - Player_2
+  - Enemy
   layers:
   - Default
   - TransparentFX
