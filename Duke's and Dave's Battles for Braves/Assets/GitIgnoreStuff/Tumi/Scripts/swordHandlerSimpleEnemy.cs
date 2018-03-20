@@ -1,9 +1,13 @@
-﻿using System.Collections;
+﻿
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class swordHandlerSimpleEnemy : MonoBehaviour {
 
+    public float damage;
+    private bool hitP1 = false;
+    private bool hitP2 = false;
     Collider collider;
 
     // Use this for initialization
@@ -20,14 +24,21 @@ public class swordHandlerSimpleEnemy : MonoBehaviour {
     private void turnOffCollider()
     {
         collider.enabled = false;
+        hitP1 = false;
+        hitP2 = false;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name);
-        if (other.tag == "Player_1" || other.tag == "Player_2")
+        if (other.tag == "Player_1" && !hitP1)
         {
-            other.SendMessage("hurtFunction", 50);
+            hitP1 = true;
+            other.SendMessage("hurtFunction", damage);
+        }
+        else if (other.tag == "Player_2" && !hitP2)
+        {
+            hitP2 = true;
+            other.SendMessage("hurtFunction", damage);
         }
     }
 }
