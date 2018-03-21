@@ -21,18 +21,6 @@ public class LeverScript : MonoBehaviour {
     
 
     void Use() {
-        isActive = !isActive;
-        if (isActive) {
-            foreach (GameObject x in effectedGameObjects) {
-                x.SendMessage("activateObject");
-            }
-        } else {
-            foreach (GameObject x in effectedGameObjects)
-            {
-                x.SendMessage("deactivateObject");
-            }
-        }
-
         foreach (GameObject g in effectedGameObjects) {
             g.SendMessage("Use");
         }
