@@ -23,7 +23,6 @@ public class SwordHandler : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name + " og " + other.tag);
         if(other.tag == "Enemy")
         {
             other.SendMessage("hurt", 50);

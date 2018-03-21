@@ -7,7 +7,7 @@ public class SimpleEnemy : MonoBehaviour {
     public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
     public Character character { get; private set; } // the character we are controlling
     public Transform target;                                    // target to aim for
-    public Transform[] targetsToKill;
+    public UserControl[] targetsToKill;
     public GameObject sword;
     public float health = 100;
     private Animator m_Animator;
@@ -22,7 +22,7 @@ public class SimpleEnemy : MonoBehaviour {
         // get the components on the object we need ( should not be null due to require component so no need to check )
         agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
         character = GetComponent<Character>();
-        agent.stoppingDistance = 2f;
+        agent.stoppingDistance = 1f;
         agent.updateRotation = false;
         agent.updatePosition = true;
         m_Animator = GetComponent<Animator>();
@@ -31,14 +31,14 @@ public class SimpleEnemy : MonoBehaviour {
 
     public void findClosest()
     {
-        float oldDistance = 10f;
-        foreach (Transform player in targetsToKill)
+        float oldDistance = 100f;
+        foreach (UserControl player in targetsToKill)
         {
             float newDistance = Vector3.Distance(player.transform.position, transform.position);
-            if(newDistance < oldDistance)
+            if (newDistance < oldDistance && !player.dead)
             {
                 oldDistance = newDistance;
-                target = player;
+                target = player.transform;
             }
         }
     }
