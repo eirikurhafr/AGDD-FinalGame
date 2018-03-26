@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject swordAir;
     private bool superJump = false;
     public bool crouching = false;
+    public List<string> Inventory = new List<string>();
     private bool dead = false;
     public Rigidbody rb;
     public string controlUse;
@@ -112,6 +113,48 @@ public class PlayerController : MonoBehaviour {
         sword.SendMessage("turnOffCollider");
     }
 
+    private void stopThrow()
+    {
+        m_Animator.SetBool("Throw", false);
+    }
+
+    private void throwItem()
+    {
+        sound.playThrow();
+        inUseItem.enabled = true;
+        inUseRB.isKinematic = false;
+        inUseItem.transform.parent = null;
+        inUseItem.transform.rotation = transform.rotation;
+        inUseRB.AddForce(transform.forward * 750f);
+        attached = false;
+        inUseItem = null;
+    }
+
+    private void stopPickup()
+    {
+        m_Animator.SetBool("PickUp", false);
+    }
+
+    private void pickupItem()
+    {
+        if(inUseItem.tag == "Throwable")
+        {
+            inUseItem.enabled = false;
+            inUseRB = inUseItem.gameObject.GetComponent<Rigidbody>();
+            inUseRB.isKinematic = true;
+            inUseItem.transform.rotation = attachPoint.transform.rotation;
+            inUseItem.transform.position = attachPoint.transform.position;
+            inUseItem.transform.parent = attachPoint.transform;
+            attached = true;
+        }
+        else if (inUseItem.tag == "Item" && !Inventory.Contains(inUseItem.name))
+        {
+            Inventory.Add(inUseItem.name);
+            Destroy(inUseItem);
+            inUseItem = null;
+        }
+    }
+
     private void checkForCollision()
     {
         Collider[] hitColliders = Physics.OverlapSphere(m_Character.transform.position, 1.5f);
@@ -120,7 +163,7 @@ public class PlayerController : MonoBehaviour {
         for (int i = 0; i < hitColliders.Length; i++)
         {
             float newDistance = Vector3.Distance(hitColliders[i].transform.position, m_Character.transform.position);
-            if (hitColliders[i].tag == "Throwable")
+            if (hitColliders[i].tag == "Throwable" || hitColliders[i].tag == "Item")
             {
                 if (newDistance < oldDistanceItem)
                 {
@@ -182,7 +225,7 @@ public class PlayerController : MonoBehaviour {
                 lookPos.y = 0;
                 transform.rotation = Quaternion.LookRotation(lookPos);
                 m_Animator.SetBool("Interact", interact);
-                inUseInteract.SendMessage("Use");
+                inUseInteract.SendMessage("Use", this);
                 userControl.lockMovement = true;
             }
             inUseInteract = null;
@@ -225,33 +268,15 @@ public class PlayerController : MonoBehaviour {
         if (use && !attached)
         {
             checkForCollision();
-            if (inUseItem != null)
+            if (inUseItem != null && (inUseItem.tag == "Throwable" || inUseItem.tag == "Item"))
             {
                 sound.playPickup();
-                if (inUseItem.tag == "Throwable")
-                {
-                    inUseItem.enabled = false;
-                    inUseRB = inUseItem.gameObject.GetComponent<Rigidbody>();
-                    inUseRB.isKinematic = true;
-                    inUseItem.transform.rotation = attachPoint.transform.rotation;
-                    inUseItem.transform.position = attachPoint.transform.position;
-                    inUseItem.transform.parent = attachPoint.transform;
-                    attached = true;
-                }
+                m_Animator.SetBool("PickUp", true);
             }
         }
         else if (use && attached)
         {
-            if (inUseItem.tag == "Throwable")
-            {
-                sound.playThrow();
-                inUseItem.enabled = true;
-                inUseRB.isKinematic = false;
-                inUseItem.transform.parent = null;
-                inUseRB.AddForce(transform.forward * 750f);
-                attached = false;
-                inUseItem = null;
-            }
+            m_Animator.SetBool("Throw", true);
         }
     }
 
@@ -266,5 +291,10 @@ public class PlayerController : MonoBehaviour {
             m_Animator.SetBool("Death", true);
             rb.velocity = new Vector3(0, 0, 0);
         }
+    }
+
+    private void removeFromInventory(string item)
+    {
+        Inventory.Remove(item);
     }
 }

@@ -11,7 +11,8 @@ public class SimpleEnemy : MonoBehaviour {
     public GameObject sword;
     public float health = 100;
     private Animator m_Animator;
-    private float battleDistance = 4f;
+    public SpawnDamageText damageSpawner;
+    private float battleDistance = 2f;
     private float attackCooldown = 2.5f;
     private bool dead = false;
     public float attackTimer;
@@ -78,12 +79,16 @@ public class SimpleEnemy : MonoBehaviour {
                 attackTimer -= Time.deltaTime;
             }
         }
+        else
+        {
+            m_Animator.SetBool("AttackingGrounded", false);
+        }
     }
 
     private void hurt(float damage)
     {
         health -= damage;
-        Debug.Log("Am hurt");
+        damageSpawner.spawnText(damage.ToString());
         if (health < 0)
         {
             m_Animator.SetBool("Death", true);

@@ -8,7 +8,7 @@ public class SoundController : MonoBehaviour
     public AudioClip jump;
     public AudioClip interact;
     public AudioClip throwObject;
-    public AudioClip hurt;
+    public AudioClip[] hurt;
     public AudioClip pickup;
     public float volume;
 
@@ -42,7 +42,8 @@ public class SoundController : MonoBehaviour
 
     public void playHurt()
     {
-        source.PlayOneShot(hurt, volume);
+        int number = Random.Range(0,9);
+        source.PlayOneShot(hurt[number], volume);
     }
 
     public void playPickup()

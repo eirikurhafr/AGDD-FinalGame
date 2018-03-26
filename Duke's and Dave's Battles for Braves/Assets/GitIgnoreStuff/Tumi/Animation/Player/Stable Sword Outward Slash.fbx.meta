@@ -191,7 +191,7 @@ ModelImporter:
       name: mixamo.com
       takeName: mixamo.com
       firstFrame: 0
-      lastFrame: 61
+      lastFrame: 37
       wrapMode: 0
       orientationOffsetY: -60
       level: 0
@@ -211,22 +211,22 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.50105685
-        functionName: disableSword
+      - time: 0.4205967
+        functionName: playAttack
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.28266665
+      - time: 0.42909524
         functionName: enableSword
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.27419356
-        functionName: playAttack
+      - time: 0.83319974
+        functionName: disableSword
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

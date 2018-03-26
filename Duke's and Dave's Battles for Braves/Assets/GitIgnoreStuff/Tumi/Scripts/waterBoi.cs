@@ -14,6 +14,7 @@ public class waterBoi : MonoBehaviour {
     public bool bla = false;
     private Animator m_Animator;
     public GameObject hand;
+    public SpawnDamageText damageSpawner;
     private float battleDistance = 5f;
     private float attackCooldown = 0.6f;
     private float attackAirCooldown = 2.7f;
@@ -112,12 +113,17 @@ public class waterBoi : MonoBehaviour {
     {
         if(vulnerable)
         {
+            damageSpawner.spawnText(damage.ToString());
             health -= damage;
             if (health < 0)
             {
                 m_Animator.SetBool("Death", true);
                 dead = true;
             }
+        }
+        else
+        {
+            damageSpawner.spawnText("0");
         }
     }
 

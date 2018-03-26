@@ -11,13 +11,13 @@ public class waterblobBehaviour : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if (gameObjcet.position.y <= -20f) {
-	        destroy(gameObjcet);
+	    if (gameObject.transform.position.y <= -20f) {
+	        Destroy(gameObject);
 	    }
 	}
 
     void OnTriggerEnter(Collider other) {
-        other.sendMessage("makeWet");
+        other.SendMessage("makeWet");
     }
 
 }

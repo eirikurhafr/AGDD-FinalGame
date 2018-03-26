@@ -102,6 +102,7 @@ MonoBehaviour:
   self: {fileID: 1521916109383756}
   cam: {fileID: 20077211486621344}
   oldLoc: {x: 0, y: 0, z: 0}
+  offsetSolo: {x: 0, y: 0, z: 0}
 --- !u!124 &124966667880752746
 Behaviour:
   m_ObjectHideFlags: 1
