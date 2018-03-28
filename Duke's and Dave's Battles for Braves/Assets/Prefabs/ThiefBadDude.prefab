@@ -2406,6 +2406,7 @@ MonoBehaviour:
   m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 0.1
+  m_IsGrounded: 0
 --- !u!135 &135131397668285078
 SphereCollider:
   m_ObjectHideFlags: 1
