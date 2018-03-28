@@ -2506,12 +2506,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8bf6565153cd74b41b0825de90e8a0c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
   targetsToKill:
   - {fileID: 0}
   - {fileID: 0}
   sword: {fileID: 1541672193608192}
-  health: 10
+  health: 100
+  damageSpawner: {fileID: 0}
   attackTimer: 0
 --- !u!114 &114363843367171868
 MonoBehaviour:

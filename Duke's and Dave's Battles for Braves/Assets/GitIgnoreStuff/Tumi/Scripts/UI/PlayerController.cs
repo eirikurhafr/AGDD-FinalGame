@@ -297,4 +297,9 @@ public class PlayerController : MonoBehaviour {
     {
         Inventory.Remove(item);
     }
+
+    private void Respawn(Vector3 location)
+    {
+        gameObject.transform.position = location;
+    }
 }

@@ -28,7 +28,6 @@ public class DamageText : MonoBehaviour {
             time -= Time.deltaTime;
             if(time < 0)
             {
-                Debug.Log("Happened");
                 Destroy(gameObject);
             }
             else
@@ -41,7 +40,6 @@ public class DamageText : MonoBehaviour {
     public void SetText(string damage)
     {
         text.text = damage;
-        Debug.Log(damage);
         activated = true;
     }
 }

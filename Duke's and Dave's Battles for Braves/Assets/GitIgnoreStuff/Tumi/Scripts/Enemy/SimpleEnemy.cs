@@ -6,15 +6,15 @@ public class SimpleEnemy : MonoBehaviour {
 
     public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
     public Character character { get; private set; } // the character we are controlling
-    public Transform target;                                    // target to aim for
+    private Transform target;                                    // target to aim for
     public UserControl[] targetsToKill;
     public GameObject sword;
     public float health = 100;
     private Animator m_Animator;
     public SpawnDamageText damageSpawner;
-    private float battleDistance = 2f;
+    private float battleDistance = 1.5f;
     private float attackCooldown = 2.5f;
-    private bool dead = false;
+    public bool dead = false;
     public float attackTimer;
 
 
@@ -32,7 +32,7 @@ public class SimpleEnemy : MonoBehaviour {
 
     public void findClosest()
     {
-        float oldDistance = 100f;
+        float oldDistance = 10f;
         foreach (UserControl player in targetsToKill)
         {
             float newDistance = Vector3.Distance(player.transform.position, transform.position);
@@ -51,32 +51,34 @@ public class SimpleEnemy : MonoBehaviour {
             if (target != null)
             {
                 agent.SetDestination(target.position);
-            }
-
-
-            if (attackTimer <= 0)
-            {
-                if (agent.remainingDistance > agent.stoppingDistance)
+                if (attackTimer <= 0)
                 {
-                    if (agent.remainingDistance < battleDistance)
+                    if (agent.remainingDistance > agent.stoppingDistance)
                     {
-                        character.Move(agent.desiredVelocity / 3, false, false);
+                        if (agent.remainingDistance < battleDistance)
+                        {
+                            character.Move(agent.desiredVelocity / 3, false, false);
+                        }
+                        else
+                        {
+                            character.Move(agent.desiredVelocity, false, false);
+                        }
                     }
-                    else
+                    else if (agent.remainingDistance < agent.stoppingDistance)
                     {
-                        character.Move(agent.desiredVelocity, false, false);
+                        doAttack();
                     }
                 }
-                else if (agent.remainingDistance < agent.stoppingDistance)
+                else if (attackTimer > 0)
                 {
-                    doAttack();
+                    if (attackTimer < 1)
+                        findClosest();
+                    attackTimer -= Time.deltaTime;
                 }
             }
-            else if (attackTimer > 0)
+            else if(target == null)
             {
-                if (attackTimer < 1)
-                    findClosest();
-                attackTimer -= Time.deltaTime;
+                findClosest();
             }
         }
         else

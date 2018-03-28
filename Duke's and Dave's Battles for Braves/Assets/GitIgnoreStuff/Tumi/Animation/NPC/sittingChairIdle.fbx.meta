@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 05a2f6d76e792ca45a2d541bfb735434
-timeCreated: 1520812399
+guid: 735c08cd4afc3ba44a5b0e7474f21776
+timeCreated: 1522174289
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
@@ -51,10 +51,10 @@ ModelImporter:
     100086: Root
     100088: Shoulder_L
     100090: Shoulder_R
-    100092: Spine_01
-    100094: Spine_02
-    100096: Spine_03
-    100098: //RootNode
+    100092: //RootNode
+    100094: Spine_01
+    100096: Spine_02
+    100098: Spine_03
     100100: Thumb_01
     100102: Thumb_011
     100104: Thumb_02
@@ -111,10 +111,10 @@ ModelImporter:
     400086: Root
     400088: Shoulder_L
     400090: Shoulder_R
-    400092: Spine_01
-    400094: Spine_02
-    400096: Spine_03
-    400098: //RootNode
+    400092: //RootNode
+    400094: Spine_01
+    400096: Spine_02
+    400098: Spine_03
     400100: Thumb_01
     400102: Thumb_011
     400104: Thumb_02
@@ -172,10 +172,7 @@ ModelImporter:
     rigImportErrors: 
     rigImportWarnings: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'mixamo.com' has import animation warnings that
-      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
-      improve retargeting quality.\n\t'Spine_03' is inbetween humanoid transforms
-      and has rotation animation that will be discarded.\n"
+    animationImportWarnings: 
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
@@ -186,35 +183,7 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: mixamo.com
-      takeName: mixamo.com
-      firstFrame: 0
-      lastFrame: 68
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
