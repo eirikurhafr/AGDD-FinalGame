@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour {
     private Camera mainCamera;
     private GameObject mainCameraGO;
     private bool activated = false;
+    private bool finished = false;
     public GameObject[] puppets;
 
 	// Use this for initialization
@@ -25,10 +26,13 @@ public class CameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        bool go = CrossPlatformInputManager.GetButtonDown("NextMessage_P1");
-        if(go)
+        if(!finished && activated)
         {
-            Go();
+            bool go = CrossPlatformInputManager.GetButtonDown("NextMessage_P1");
+            if (go)
+            {
+                Go();
+            }
         }
     }
 
@@ -47,13 +51,22 @@ public class CameraController : MonoBehaviour {
             mainCamera.enabled = true;
             UICanvas.enabled = true;
             DialougeCanvas.enabled = false;
+            foreach (GameObject puppet in puppets)
+            {
+                puppet.SetActive(false);
+            }
+            finished = true;
         }
     }
 
     void OnTriggerEnter(Collider collision)
     {
-        if(!activated)
+        if (!activated)
         {
+            foreach (GameObject puppet in puppets)
+            {
+                puppet.SetActive(true);
+            }
             mainCamera.enabled = false;
             camerasToSignal[0].enabled = true;
             camerasToSignal[0].SendMessage("Go", puppets);

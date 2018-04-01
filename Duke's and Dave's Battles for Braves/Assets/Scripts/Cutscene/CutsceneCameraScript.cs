@@ -44,6 +44,12 @@ public class CutsceneCameraScript : MonoBehaviour {
                 else if (player == "player2")
                     puppets[1].SendMessage("Thinking");
                 break;
+            case "ClearBools":
+                if (player == "player1")
+                    puppets[0].SendMessage("ClearBools");
+                else if (player == "player2")
+                    puppets[1].SendMessage("ClearBools");
+                break;
             default:
                 break;
         }
