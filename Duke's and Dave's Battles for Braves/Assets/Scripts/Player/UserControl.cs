@@ -10,9 +10,11 @@ public class UserControl : MonoBehaviour
     private Vector3 m_CamForward;             // The current forward direction of the camera
     private Vector3 m_Move;
     private bool m_Jump;                      // the world-relative desired move direction, calculated from the camForward and user input.
+    private float timer = 0;
     public bool crouch = false;
     public bool inUse = false;
     public bool dead = false;
+    private SoundController sound;
     public bool lockMovement = false;
     public string controlHorizontal;
     public string controlVertical;
@@ -22,6 +24,7 @@ public class UserControl : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        sound = GetComponent<SoundController>();
         // get the transform of the main camera
         if (Camera.main != null)
         {
@@ -77,6 +80,7 @@ public class UserControl : MonoBehaviour
 
     private void HandleGroundControl()
     {
+
         float h = 0f, v = 0f;
         if (!inUse)
         {
@@ -91,6 +95,12 @@ public class UserControl : MonoBehaviour
 #endif
 
         // pass all parameters to the character control script
+        if(h != 0 || v != 0)
+        {
+            sound.playFootsteps();
+        }
+        timer -= Time.deltaTime;
+        
         m_Character.Move(m_Move, crouch, m_Jump);
         m_Jump = false;
     }

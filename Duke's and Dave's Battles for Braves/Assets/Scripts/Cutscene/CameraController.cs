@@ -15,9 +15,10 @@ public class CameraController : MonoBehaviour {
     private bool activated = false;
     private bool finished = false;
     public GameObject[] puppets;
+    public GameObject[] disableBois;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         mainCamera = GameObject.Find("Main Camera").GetComponent<Camera>();
         UICanvas = GameObject.Find("UICanvas").GetComponent<Canvas>();
         DialougeCanvas = GameObject.Find("DialogueCanvas").GetComponent<Canvas>();
@@ -55,17 +56,26 @@ public class CameraController : MonoBehaviour {
             {
                 puppet.SetActive(false);
             }
+            foreach (GameObject puppet in disableBois)
+            {
+                puppet.SetActive(true);
+            }
             finished = true;
         }
     }
 
     void OnTriggerEnter(Collider collision)
     {
-        if (!activated)
+        if (!activated && (collision.tag == "Player_1" || collision.tag == "Player_2"))
         {
             foreach (GameObject puppet in puppets)
             {
                 puppet.SetActive(true);
+            }
+
+            foreach(GameObject puppet in disableBois)
+            {
+                puppet.SetActive(false);
             }
             mainCamera.enabled = false;
             camerasToSignal[0].enabled = true;

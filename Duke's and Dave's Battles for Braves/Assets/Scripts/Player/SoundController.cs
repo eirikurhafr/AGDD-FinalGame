@@ -9,8 +9,11 @@ public class SoundController : MonoBehaviour
     public AudioClip interact;
     public AudioClip throwObject;
     public AudioClip[] hurt;
+    public AudioClip[] footSteps;
     public AudioClip pickup;
+    private float footstepTimer = 0;
     public float volume;
+    public float footstepVolume;
 
     private AudioSource source;
 
@@ -18,6 +21,11 @@ public class SoundController : MonoBehaviour
     void Start()
     {
         source = GetComponent<AudioSource>();
+    }
+
+    private void Update()
+    {
+        footstepTimer -= Time.deltaTime;
     }
 
     public void playAttack()
@@ -49,5 +57,16 @@ public class SoundController : MonoBehaviour
     public void playPickup()
     {
         source.PlayOneShot(pickup, volume);
+    }
+
+    public void playFootsteps()
+    {
+        if (footstepTimer <= 0)
+        {
+            int number = Random.Range(0, 10);
+            source.PlayOneShot(footSteps[number], footstepVolume);
+            footstepTimer = footSteps[number].length;
+        }
+        
     }
 }
