@@ -9,20 +9,24 @@ public class SpinningEnemy : MonoBehaviour {
     private Transform target;                                    // target to aim for
     public UserControl[] targetsToKill;
     public GameObject sword;
-    private SpinningSoundController sound;
+    public GameObject explosion;
     public float health = 100;
-    private Animator m_Animator;
     public SpawnDamageText damageSpawner;
-    private float battleDistance = 1.5f;
-    private float attackCooldown = 2.5f;
     public bool dead = false;
     public float attackTimer;
+    private Animator m_Animator;
+    private Rigidbody rb;
+    private SpinningSoundController sound;
+    private float battleDistance = 1.5f;
+    private float attackCooldown = 2.5f;
     private float check = 0;
+    private bool boolCheck = false;
 
 
     private void Start()
     {
         // get the components on the object we need ( should not be null due to require component so no need to check )
+        rb = gameObject.GetComponent<Rigidbody>();
         agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
         character = GetComponent<Character>();
         agent.stoppingDistance = 1f;
@@ -92,17 +96,35 @@ public class SpinningEnemy : MonoBehaviour {
                 findClosest();
             }
         }
-        else
+        else if(!boolCheck)
         {
+            boolCheck = true;
             m_Animator.SetBool("AttackingGrounded", false);
+            agent.enabled = false;
+            m_Animator.enabled = false;
+            tag = "Throwable";
+            StartCoroutine("MyCoroutine");
         }
     }
 
-    public void OnCollisionEnter(Collision collision)
+    IEnumerator MyCoroutine()
     {
-        if(collision.gameObject.tag == "Player_1")
-        {
-        }
+        rb.position.Set(rb.position.x, 1, rb.position.z);
+        rb.velocity = new Vector3(0, 0, 0);
+        // suspend execution for 5 seconds
+        yield return new WaitForSeconds(1);
+        hurt(5);
+        yield return new WaitForSeconds(1);
+        hurt(4);
+        yield return new WaitForSeconds(1);
+        hurt(3);
+        yield return new WaitForSeconds(1);
+        hurt(2);
+        yield return new WaitForSeconds(1);
+        hurt(1);
+        yield return new WaitForSeconds(1);
+        Instantiate(explosion, new Vector3(transform.position.x, 1, transform.position.z), Quaternion.identity);
+        Destroy(gameObject);
     }
 
     private void hurt(float damage)
