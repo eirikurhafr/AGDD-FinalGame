@@ -1989,7 +1989,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 0
+    m_RotationOrder: 4
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -2068,7 +2068,6 @@ MonoBehaviour:
   sword: {fileID: 1946145975115172}
   swordAir: {fileID: 1199531797247624}
   crouching: 0
-  Inventory: []
   rb: {fileID: 0}
   controlUse: Use_P1
   controlInteract: Interact_P1
@@ -2105,10 +2104,7 @@ MonoBehaviour:
   jump: {fileID: 8300000, guid: 9b4f99dc2c7bf9644abf5f25e216e42f, type: 3}
   interact: {fileID: 8300000, guid: 72679e6fac437ea4680d926839a00acc, type: 3}
   throwObject: {fileID: 8300000, guid: ad46596d8b4a0c542a75a4e421a9a80a, type: 3}
-  hurt:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  hurt: {fileID: 8300000, guid: b7f822291fc4f0e4c9327d586bb449e9, type: 3}
   pickup: {fileID: 8300000, guid: 238625bf28ec69240b5eddadaf8a4640, type: 3}
   volume: 0.5
 --- !u!114 &114852379993146206
