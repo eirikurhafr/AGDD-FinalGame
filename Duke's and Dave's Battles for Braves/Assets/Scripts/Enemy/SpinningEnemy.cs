@@ -9,6 +9,7 @@ public class SpinningEnemy : MonoBehaviour {
     private Transform target;                                    // target to aim for
     public UserControl[] targetsToKill;
     public GameObject sword;
+    private SpinningSoundController sound;
     public float health = 100;
     private Animator m_Animator;
     public SpawnDamageText damageSpawner;
@@ -16,6 +17,7 @@ public class SpinningEnemy : MonoBehaviour {
     private float attackCooldown = 2.5f;
     public bool dead = false;
     public float attackTimer;
+    private float check = 0;
 
 
     private void Start()
@@ -26,8 +28,11 @@ public class SpinningEnemy : MonoBehaviour {
         agent.stoppingDistance = 1f;
         agent.updateRotation = false;
         agent.updatePosition = true;
+        sound = GetComponent<SpinningSoundController>();
         m_Animator = GetComponent<Animator>();
         findClosest();
+        m_Animator.SetBool("Spinning", true);
+        sound.playHellicopter();
     }
 
     public void findClosest()
@@ -48,7 +53,12 @@ public class SpinningEnemy : MonoBehaviour {
     {
         if (!dead)
         {
-            m_Animator.SetBool("Spinning", true);
+            check += Time.deltaTime;
+            if (check + 0.3 >= sound.getHeliLength())
+            {
+                sound.playHellicopter();
+                check = 0;
+            }
             if (target != null)
             {
                 agent.SetDestination(target.position);
