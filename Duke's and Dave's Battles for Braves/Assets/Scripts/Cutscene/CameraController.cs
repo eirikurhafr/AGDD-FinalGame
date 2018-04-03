@@ -64,6 +64,25 @@ public class CameraController : MonoBehaviour {
         }
     }
 
+    void StartScene()
+    {
+        foreach (GameObject puppet in puppets)
+        {
+            puppet.SetActive(true);
+        }
+
+        foreach (GameObject puppet in disableBois)
+        {
+            puppet.SetActive(false);
+        }
+        mainCamera.enabled = false;
+        camerasToSignal[0].enabled = true;
+        camerasToSignal[0].SendMessage("Go", puppets);
+        activated = true;
+        UICanvas.enabled = false;
+        DialougeCanvas.enabled = true;
+    }
+
     void OnTriggerEnter(Collider collision)
     {
         if (!activated && (collision.tag == "Player_1" || collision.tag == "Player_2"))

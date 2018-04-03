@@ -9,7 +9,7 @@ public class HealthSliderScript : MonoBehaviour {
     public PlayerController player;
     private float oldHealth;
     private float time;
-    private float flashTime = 0.2f;
+    private float flashTime = 0.5f;
 
 	// Use this for initialization
 	void Start () {
@@ -27,6 +27,10 @@ public class HealthSliderScript : MonoBehaviour {
             hurtImage.SetActive(true);
             oldHealth = player.health;
         }
+        else
+        {
+            slider.value = player.health;
+        }
         
         if(time > 0)
         {
@@ -34,7 +38,6 @@ public class HealthSliderScript : MonoBehaviour {
         }
         else if (time < 0)
         {
-            Debug.Log(time);
             hurtImage.SetActive(false);
         }
 	}

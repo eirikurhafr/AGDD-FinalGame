@@ -27,18 +27,7 @@ public class CameraScript : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (!player1.getDead() && !player2.getDead())
-        {
-            FixedCameraFollowSmooth(cam, t1.transform, t2.transform);
-        }
-        else if (player1.getDead())
-        {
-            OnePlayerCamera(t2.transform);
-        }
-        else if (player2.getDead())
-        {
-            OnePlayerCamera(t1.transform);
-        }
+        FixedCameraFollowSmooth(cam, t1.transform, t2.transform);
     }
 
     public void OnePlayerCamera(Transform player)
