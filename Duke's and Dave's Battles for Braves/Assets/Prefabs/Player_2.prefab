@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 114516363281464476}
   - component: {fileID: 114026586758536720}
   - component: {fileID: 114683390164483186}
+  - component: {fileID: 64035897607158374}
   m_Layer: 0
   m_Name: Player_2
   m_TagString: Player_2
@@ -1765,9 +1766,9 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1185690114351618}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.76499987, y: 1.7919999, z: -4.7165003}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalRotation: {x: -0, y: -0.7159604, z: -0, w: 0.6981409}
+  m_LocalPosition: {x: -23.640007, y: 0.56999874, z: -1.8099974}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children:
   - {fileID: 4308216951321346}
   m_Father: {fileID: 0}
@@ -1898,6 +1899,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!64 &64035897607158374
+MeshCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1185690114351618}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 14
+  m_SkinWidth: 0.01
+  m_Mesh: {fileID: 0}
 --- !u!65 &65294770814457928
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -2083,11 +2098,29 @@ MonoBehaviour:
   interact: {fileID: 8300000, guid: 72679e6fac437ea4680d926839a00acc, type: 3}
   throwObject: {fileID: 8300000, guid: ad46596d8b4a0c542a75a4e421a9a80a, type: 3}
   hurt:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: f9df82501d9933e458ffe093c92ea0fe, type: 3}
+  - {fileID: 8300000, guid: 9bb881978dddb36488bca2d143a35a5f, type: 3}
+  - {fileID: 8300000, guid: e9a655e7783817345976fd6d69f13dd3, type: 3}
+  - {fileID: 8300000, guid: 47373204e3f235d4ebe71092c5ca0292, type: 3}
+  - {fileID: 8300000, guid: 3d206163cec8dbe418a5437cbd61e6b2, type: 3}
+  - {fileID: 8300000, guid: 3d901829f63122940998ff6692c257e2, type: 3}
+  - {fileID: 8300000, guid: 6b8d7d2419975bd4480345f4a3f129ce, type: 3}
+  - {fileID: 8300000, guid: 6806eeca80fbf6e42a531fa8a703361a, type: 3}
+  - {fileID: 8300000, guid: f55c1a1e57c5aa6489735fed2c27e730, type: 3}
+  footSteps:
+  - {fileID: 8300000, guid: 206bc369e3b6ff849a0bffef9e49b323, type: 3}
+  - {fileID: 8300000, guid: 925032a009be19b4893165a963fb9b9c, type: 3}
+  - {fileID: 8300000, guid: fad59ddc4e1212e4889db471dd568fb3, type: 3}
+  - {fileID: 8300000, guid: 59048996172631d4aa832015a888a6f7, type: 3}
+  - {fileID: 8300000, guid: ee769e0cfe17dae47bbac81e3f758361, type: 3}
+  - {fileID: 8300000, guid: de953981e592dd74fab68bca0f00cbd6, type: 3}
+  - {fileID: 8300000, guid: 6b2b34d8ec3183249bf913a8bf79eb0e, type: 3}
+  - {fileID: 8300000, guid: 1c255c5b264e98d4fbfa2da5102dbb62, type: 3}
+  - {fileID: 8300000, guid: 38e82f212bcf68640a095f2cdd3d29de, type: 3}
+  - {fileID: 8300000, guid: f14306848ec0f8440b23e7947271150b, type: 3}
   pickup: {fileID: 8300000, guid: 238625bf28ec69240b5eddadaf8a4640, type: 3}
   volume: 0.5
+  footstepVolume: 0.2
 --- !u!114 &114569877321201554
 MonoBehaviour:
   m_ObjectHideFlags: 1
