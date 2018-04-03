@@ -26703,7 +26703,7 @@ GameObject:
   - component: {fileID: 567505999}
   - component: {fileID: 567506000}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Ambient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30058,8 +30058,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 634261250}
-  m_LocalRotation: {x: 0.028753482, y: 0.063527875, z: 0.0018314034, w: -0.9975641}
-  m_LocalPosition: {x: 2.6613827, y: 12.389234, z: 2.5438843}
+  m_LocalRotation: {x: 0.11478366, y: 0.47097456, z: 0.061963823, w: -0.8724496}
+  m_LocalPosition: {x: 8.504929, y: 10.429128, z: -28.265594}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 115694016}
@@ -43726,8 +43726,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 915879321}
-  m_LocalRotation: {x: 0.028753482, y: 0.063527875, z: 0.0018314034, w: -0.9975641}
-  m_LocalPosition: {x: -24.10809, y: 18.165705, z: 31.772877}
+  m_LocalRotation: {x: 0.11478366, y: 0.47097456, z: 0.061963823, w: -0.8724496}
+  m_LocalPosition: {x: -22.717926, y: 14.023808, z: 16.853523}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -55227,7 +55227,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4793333755683016, guid: d8ed5dfdf29553744a9f5617f089e9b3, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -23.66
+      value: 18.79
       objectReference: {fileID: 0}
     - target: {fileID: 4793333755683016, guid: d8ed5dfdf29553744a9f5617f089e9b3, type: 2}
       propertyPath: m_LocalPosition.y
@@ -55235,7 +55235,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4793333755683016, guid: d8ed5dfdf29553744a9f5617f089e9b3, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -0.11
+      value: 0.96
       objectReference: {fileID: 0}
     - target: {fileID: 4793333755683016, guid: d8ed5dfdf29553744a9f5617f089e9b3, type: 2}
       propertyPath: m_LocalRotation.x
@@ -55260,17 +55260,17 @@ Prefab:
     - target: {fileID: 114196107641465434, guid: d8ed5dfdf29553744a9f5617f089e9b3,
         type: 2}
       propertyPath: controlHorizontal
-      value: Horizontal_Keyboard_P1
+      value: Horizontal_Gamepad_P1
       objectReference: {fileID: 0}
     - target: {fileID: 114196107641465434, guid: d8ed5dfdf29553744a9f5617f089e9b3,
         type: 2}
       propertyPath: controlVertical
-      value: Vertical_Keyboard_P1
+      value: Vertical_Gamepad_P1
       objectReference: {fileID: 0}
     - target: {fileID: 114336407053764688, guid: d8ed5dfdf29553744a9f5617f089e9b3,
         type: 2}
       propertyPath: controlCrouch
-      value: Crouch_Keyboard_P1
+      value: Crouch_Gamepad_P1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d8ed5dfdf29553744a9f5617f089e9b3, type: 2}
@@ -85321,7 +85321,7 @@ GameObject:
   - component: {fileID: 1765166875}
   - component: {fileID: 1765166874}
   m_Layer: 0
-  m_Name: Mountain Breeze
+  m_Name: Music
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -91118,7 +91118,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4899946080685040, guid: 60299f10dbc750a47b64030ab8a135fc, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -23.640007
+      value: 18.809994
       objectReference: {fileID: 0}
     - target: {fileID: 4899946080685040, guid: 60299f10dbc750a47b64030ab8a135fc, type: 2}
       propertyPath: m_LocalPosition.y
@@ -91126,7 +91126,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4899946080685040, guid: 60299f10dbc750a47b64030ab8a135fc, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -1.8099974
+      value: -0.7399987
       objectReference: {fileID: 0}
     - target: {fileID: 4899946080685040, guid: 60299f10dbc750a47b64030ab8a135fc, type: 2}
       propertyPath: m_LocalRotation.x
