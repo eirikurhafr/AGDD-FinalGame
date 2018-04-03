@@ -13,13 +13,12 @@ public class SpinningEnemy : MonoBehaviour {
     public float health = 100;
     public SpawnDamageText damageSpawner;
     public bool dead = false;
-    public float attackTimer;
+
     public float damage;
     private Animator m_Animator;
     private Rigidbody rb;
     private SpinningSoundController sound;
     private float battleDistance = 1.5f;
-    private float attackCooldown = 2.5f;
     private float check = 0;
     private bool boolCheck = false;
     private bool distanceCheck = false;
@@ -68,34 +67,11 @@ public class SpinningEnemy : MonoBehaviour {
             if (target != null)
             {
                 agent.SetDestination(target.position);
-                if (attackTimer <= 0)
+                character.Move(agent.desiredVelocity, false, false);
+                if (!distanceCheck)
                 {
-                    if (agent.remainingDistance > agent.stoppingDistance)
-                    {
-                        if (agent.remainingDistance < battleDistance)
-                        {
-                            //character.Move(agent.desiredVelocity / 3, false, false);
-                        }
-                        else
-                        {
-                            character.Move(agent.desiredVelocity, false, false);
-                        }
-                        if (!distanceCheck)
-                        {
-                            agent.stoppingDistance = 1f;
-                            distanceCheck = true;
-                        }
-                    }
-                    else if (agent.remainingDistance < agent.stoppingDistance)
-                    {
-                        //doAttack();
-                    }
-                }
-                else if (attackTimer > 0)
-                {
-                    if (attackTimer < 1)
-                        findClosest();
-                    attackTimer -= Time.deltaTime;
+                    agent.stoppingDistance = 1f;
+                    distanceCheck = true;
                 }
             }
             else if (target == null)
@@ -131,7 +107,7 @@ public class SpinningEnemy : MonoBehaviour {
         yield return new WaitForSeconds(1);
         hurt(1);
         yield return new WaitForSeconds(1);
-        Instantiate(explosion, new Vector3(transform.position.x, 1, transform.position.z), Quaternion.identity);
+        Instantiate(explosion, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         Destroy(gameObject);
     }
 
@@ -147,15 +123,11 @@ public class SpinningEnemy : MonoBehaviour {
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if(attackTimer <= 0)
+        if ((other.name == "Player_1" || other.name == "Player_2") && !dead)
         {
-            if (other.name == "Player_1" || other.name == "Player_2")
-            {
-                other.SendMessage("hurtFunction", damage);
-            }
-            attackTimer = attackCooldown;
+            other.SendMessage("hurtFunction", damage);
         }
     }
 
@@ -166,8 +138,6 @@ public class SpinningEnemy : MonoBehaviour {
         var lookPos = target.transform.position - transform.position;
         lookPos.y = 0;
         transform.rotation = Quaternion.LookRotation(lookPos);
-        //m_Animator.SetBool("AttackingGrounded", true);
-        attackTimer = attackCooldown;
     }
 
     public void enableCollision()
