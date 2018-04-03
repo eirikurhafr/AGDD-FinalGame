@@ -72,7 +72,7 @@ public class SpinningEnemy : MonoBehaviour {
                     {
                         if (agent.remainingDistance < battleDistance)
                         {
-                            character.Move(agent.desiredVelocity / 3, false, false);
+                            //character.Move(agent.desiredVelocity / 3, false, false);
                         }
                         else
                         {
@@ -113,6 +113,7 @@ public class SpinningEnemy : MonoBehaviour {
         rb.velocity = new Vector3(0, 0, 0);
         // suspend execution for 5 seconds
         yield return new WaitForSeconds(1);
+        rb.velocity = new Vector3(0, 0, 0);
         hurt(5);
         yield return new WaitForSeconds(1);
         hurt(4);
@@ -127,7 +128,7 @@ public class SpinningEnemy : MonoBehaviour {
         Destroy(gameObject);
     }
 
-    private void hurt(float damage)
+        private void hurt(float damage)
     {
         health -= damage;
         damageSpawner.spawnText(damage.ToString());
