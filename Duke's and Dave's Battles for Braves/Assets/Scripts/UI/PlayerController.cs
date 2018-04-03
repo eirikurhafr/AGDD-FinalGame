@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
     public GameObject sword;
     public GameObject swordAir;
     private bool superJump = false;
+    private bool interacting = false;
     public bool crouching = false;
     public List<string> Inventory = new List<string>();
     private bool dead = false;
@@ -31,6 +32,10 @@ public class PlayerController : MonoBehaviour {
     public GameObject objectInUse;
     public GameObject attachPoint;
     public float health;
+    public float deathTimer;
+    public float hurtTimer;
+    private float realHurtTimer = 0;
+    private float realDeathTimer = 0;
 
 
     // Use this for initialization
@@ -62,6 +67,9 @@ public class PlayerController : MonoBehaviour {
 
         if (!dead)
         {
+            if(realHurtTimer > 0)
+                realHurtTimer -= Time.deltaTime;
+
             m_Animator.SetBool("SuperJump", false);
             bool interact = CrossPlatformInputManager.GetButtonDown(controlInteract);
             bool drop = CrossPlatformInputManager.GetButton(controlDrop);
@@ -90,6 +98,17 @@ public class PlayerController : MonoBehaviour {
             usePushed(use);
             attackPushed(attack);
         }
+        else
+        {
+            realDeathTimer -= Time.deltaTime;
+            if(realDeathTimer < 0)
+            {
+                dead = false;
+                health = 100;
+                userControl.dead = false;
+                m_Animator.SetBool("Death", false);
+            }
+        }
     }
 
     public bool getDead()
@@ -100,6 +119,7 @@ public class PlayerController : MonoBehaviour {
     private void enableMovement()
     {
         m_Animator.SetBool("Interact", false);
+        interacting = false;
         userControl.lockMovement = false;
     }
 
@@ -216,11 +236,12 @@ public class PlayerController : MonoBehaviour {
     //When the player wants to interact with something
     private void interactPushed(bool interact)
     {
-        if(interact)
+        if(interact && !interacting)
         {
             checkForCollision();
             if (inUseInteract != null)
             {
+                interacting = true;
                 var lookPos = inUseInteract.transform.position - transform.position;
                 lookPos.y = 0;
                 transform.rotation = Quaternion.LookRotation(lookPos);
@@ -282,14 +303,19 @@ public class PlayerController : MonoBehaviour {
 
     public void hurtFunction(float healthAltered)
     {
-        sound.playHurt();
-        health -= healthAltered;
-        if(health <= 0)
+        if(realHurtTimer <= 0)
         {
-            dead = true;
-            userControl.dead = true;
-            m_Animator.SetBool("Death", true);
-            rb.velocity = new Vector3(0, 0, 0);
+            sound.playHurt();
+            health -= healthAltered;
+            realHurtTimer = hurtTimer;
+            if (health <= 0)
+            {
+                dead = true;
+                userControl.dead = true;
+                m_Animator.SetBool("Death", true);
+                realDeathTimer = deathTimer;
+                rb.velocity = new Vector3(0, 0, 0);
+            }
         }
     }
 

@@ -6,16 +6,20 @@ public class waterBoi : MonoBehaviour {
 
     public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
     public Character character { get; private set; } // the character we are controlling
-    public Transform target;                                    // target to aim for
+    private Transform target;                                    // target to aim for
     public UserControl[] targetsToKill;
     public Transform prefab;
-    public float health = 100;
+    public float health = 4;
     private bool vulnerable = false;
     public bool bla = false;
+    private bool distanceCheck = false;
     private Animator m_Animator;
     public GameObject hand;
     public SpawnDamageText damageSpawner;
     private float battleDistance = 5f;
+    private float m_AnimationSpeedPunch = 0.5f;
+    private float m_Animation = 1f;
+    private float groundPoundChance = 0;
     private float attackCooldown = 0.6f;
     private float attackAirCooldown = 2.7f;
     private bool dead = false;
@@ -27,7 +31,7 @@ public class waterBoi : MonoBehaviour {
         // get the components on the object we need ( should not be null due to require component so no need to check )
         agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
         character = GetComponent<Character>();
-        agent.stoppingDistance = 2.5f;
+        agent.stoppingDistance = -1f;
         agent.updateRotation = false;
         agent.updatePosition = true;
         m_Animator = GetComponent<Animator>();
@@ -36,7 +40,7 @@ public class waterBoi : MonoBehaviour {
 
     public void findClosest()
     {
-        float oldDistance = 100f;
+        float oldDistance = 20f;
         foreach (UserControl player in targetsToKill)
         {
             float newDistance = Vector3.Distance(player.transform.position, transform.position);
@@ -50,46 +54,50 @@ public class waterBoi : MonoBehaviour {
 
     private void Update()
     {
-        if(bla)
-        {
-            spillWater();
-            bla = false;
-        }
-
         if (!dead)
         {
-            if (attackTimer <= 0)
+            if (target != null)
             {
-                if (target != null)
+                agent.SetDestination(target.position);
+                if (attackTimer <= 0)
                 {
-                    agent.SetDestination(target.position);
-                }
-                if (agent.remainingDistance > agent.stoppingDistance)
-                {
-                    if (agent.remainingDistance < battleDistance)
+                    if (agent.remainingDistance > agent.stoppingDistance)
                     {
-                        agent.speed = 1.5f;
-                        character.Move(agent.desiredVelocity/2, false, false);
+                        if (agent.remainingDistance < battleDistance)
+                        {
+                            agent.speed = 1.5f;
+                            character.Move(agent.desiredVelocity / 2, false, false);
+                        }
+                        else
+                        {
+                            agent.speed = 3f;
+                            character.Move(agent.desiredVelocity, false, false);
+                        }
+                        if(!distanceCheck)
+                        {
+                            agent.stoppingDistance = 2.5f;
+                            distanceCheck = true;
+                        }
                     }
-                    else
+                    else if (agent.remainingDistance < agent.stoppingDistance)
                     {
-                        agent.speed = 3f;
-                        character.Move(agent.desiredVelocity, false, false);
+                        doAttack();
                     }
                 }
-                else if (agent.remainingDistance < agent.stoppingDistance)
+                else if (attackTimer > 0)
                 {
-                    doAttack();
+                    if (attackTimer < 1)
+                        findClosest();
+                    else if (attackTimer < 0.5)
+                        m_Animator.SetBool("Stunned", false);
+                    attackTimer -= Time.deltaTime;
                 }
             }
-            else if (attackTimer > 0)
+            else if (target == null)
             {
-                if (attackTimer < 1)
-                    findClosest();
-                else if (attackTimer < 0.5)
-                    m_Animator.SetBool("Stunned", false);
-                attackTimer -= Time.deltaTime;
+                findClosest();
             }
+
         }
         else
         {
@@ -114,17 +122,28 @@ public class waterBoi : MonoBehaviour {
         if(vulnerable)
         {
             damageSpawner.spawnText(damage.ToString());
-            health -= damage;
+            health -= 1;
+            vulnerable = false;
+            attackTimer = 0f;
+            m_Animator.SetBool("Stunned", false);
+            levelUp();
             if (health < 0)
             {
                 m_Animator.SetBool("Death", true);
                 dead = true;
             }
+
         }
         else
         {
             damageSpawner.spawnText("0");
         }
+    }
+
+    public void levelUp()
+    {
+        m_AnimationSpeedPunch += 0.1f;
+        groundPoundChance++;
     }
 
     public void doAttack()
@@ -135,7 +154,7 @@ public class waterBoi : MonoBehaviour {
         lookPos.y = 0;
         transform.rotation = Quaternion.LookRotation(lookPos);
         int number = Random.Range(0, 4);
-        if(number == 0)
+        if(number < groundPoundChance)
         {
             m_Animator.SetBool("AttackingGroundpound", true);
             attackTimer = attackAirCooldown;

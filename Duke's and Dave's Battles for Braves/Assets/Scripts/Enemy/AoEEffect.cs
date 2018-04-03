@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class AoEEffect : MonoBehaviour {
     Collider collider;
-    float deathTimer = 1f;
+    float deathTimer = 0.2f;
     float damage = 10;
     private bool hitP1 = false;
     private bool hitP2 = false;
