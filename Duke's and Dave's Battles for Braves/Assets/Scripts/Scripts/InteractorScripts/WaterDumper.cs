@@ -12,15 +12,16 @@ public class WaterDumper : MonoBehaviour {
 
     [SerializeField]
     private Material material;
+    private Vector3 StartingPosition;
 
-
-	// Use this for initialization
-	void Start () {
-	    waterAmmount = 100f;
+    // Use this for initialization
+    void Start () {
+        StartingPosition = this.transform.position;
+        waterAmmount = 100f;
 	    if (refillRate == 0f) {
 	        refillRate = 12f;
 	    }
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -32,9 +33,12 @@ public class WaterDumper : MonoBehaviour {
     void Use() {
         if (waterAmmount >= 100f) {
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            print("1" + cube.transform.position);
+            cube.transform.position = StartingPosition;//new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.y);
+            print("2" + cube.transform.position);
             cube.AddComponent<Rigidbody>();
             cube.gameObject.GetComponent<BoxCollider>().isTrigger = true;
-            cube.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.y);
+
             cube.gameObject.GetComponent<Renderer>().material = material;
            // cube.gameObject.AddComponent<waterblobBehaviour>();
             waterAmmount = 0f;

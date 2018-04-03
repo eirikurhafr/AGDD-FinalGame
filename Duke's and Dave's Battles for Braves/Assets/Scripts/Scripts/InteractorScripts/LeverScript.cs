@@ -12,13 +12,7 @@ public class LeverScript : MonoBehaviour {
 	void Start () {
 	    isActive = false;
 	}
-
-	/*
-	void Update () {
-		
-	}*/
-
-    
+   
 
     void Use() {
         foreach (GameObject g in effectedGameObjects) {
