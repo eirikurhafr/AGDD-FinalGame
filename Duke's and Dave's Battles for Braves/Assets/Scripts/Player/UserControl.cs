@@ -86,7 +86,7 @@ public class UserControl : MonoBehaviour
         {
             h = CrossPlatformInputManager.GetAxis(controlHorizontal);
             v = CrossPlatformInputManager.GetAxis(controlVertical);
-            Debug.Log(h);
+            //Debug.Log(h);
         }
         // we use world-relative directions in the case of no main camera
         m_Move = v * Vector3.forward + h * Vector3.right;
