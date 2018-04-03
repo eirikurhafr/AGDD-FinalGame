@@ -16,6 +16,7 @@ public class SimpleEnemy : MonoBehaviour {
     private float attackCooldown = 2.5f;
     public bool dead = false;
     public float attackTimer;
+    private bool distanceCheck = false;
 
 
     private void Start()
@@ -23,7 +24,7 @@ public class SimpleEnemy : MonoBehaviour {
         // get the components on the object we need ( should not be null due to require component so no need to check )
         agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
         character = GetComponent<Character>();
-        agent.stoppingDistance = 1f;
+        agent.stoppingDistance = -1f;
         agent.updateRotation = false;
         agent.updatePosition = true;
         m_Animator = GetComponent<Animator>();
@@ -62,6 +63,11 @@ public class SimpleEnemy : MonoBehaviour {
                         else
                         {
                             character.Move(agent.desiredVelocity, false, false);
+                        }
+                        if (!distanceCheck)
+                        {
+                            agent.stoppingDistance = 1f;
+                            distanceCheck = true;
                         }
                     }
                     else if (agent.remainingDistance < agent.stoppingDistance)

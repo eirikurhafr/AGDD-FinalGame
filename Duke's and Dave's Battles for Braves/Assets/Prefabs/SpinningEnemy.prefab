@@ -1803,7 +1803,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1100146830110590}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -7.3419404, y: 3.43, z: -2.65}
+  m_LocalPosition: {x: -2.33, y: 3.43, z: -2.65}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4549578376180650}
@@ -2576,7 +2576,8 @@ MonoBehaviour:
   health: 100
   damageSpawner: {fileID: 114584956370474130}
   dead: 0
-  attackTimer: 0
+  attackTimer: 0.5
+  damage: 5
 --- !u!114 &114335363684376444
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2679,7 +2680,7 @@ MonoBehaviour:
   m_JumpPower: 12
   m_GravityMultiplier: 2
   m_RunCycleLegOffset: 0.2
-  m_MoveSpeedMultiplier: 0.5
+  m_MoveSpeedMultiplier: 1
   m_AnimSpeedMultiplier: 1
   m_GroundCheckDistance: 2
   m_IsGrounded: 0
@@ -2702,7 +2703,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1100146830110590}
   m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.3
   m_Height: 0.75

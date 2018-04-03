@@ -14,6 +14,7 @@ public class SpinningEnemy : MonoBehaviour {
     public SpawnDamageText damageSpawner;
     public bool dead = false;
     public float attackTimer;
+    public float damage;
     private Animator m_Animator;
     private Rigidbody rb;
     private SpinningSoundController sound;
@@ -21,6 +22,7 @@ public class SpinningEnemy : MonoBehaviour {
     private float attackCooldown = 2.5f;
     private float check = 0;
     private bool boolCheck = false;
+    private bool distanceCheck = false;
 
 
     private void Start()
@@ -29,7 +31,7 @@ public class SpinningEnemy : MonoBehaviour {
         rb = gameObject.GetComponent<Rigidbody>();
         agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
         character = GetComponent<Character>();
-        agent.stoppingDistance = 1f;
+        agent.stoppingDistance = -1f;
         agent.updateRotation = false;
         agent.updatePosition = true;
         sound = GetComponent<SpinningSoundController>();
@@ -78,10 +80,15 @@ public class SpinningEnemy : MonoBehaviour {
                         {
                             character.Move(agent.desiredVelocity, false, false);
                         }
+                        if (!distanceCheck)
+                        {
+                            agent.stoppingDistance = 1f;
+                            distanceCheck = true;
+                        }
                     }
                     else if (agent.remainingDistance < agent.stoppingDistance)
                     {
-                        doAttack();
+                        //doAttack();
                     }
                 }
                 else if (attackTimer > 0)
@@ -137,6 +144,18 @@ public class SpinningEnemy : MonoBehaviour {
             m_Animator.SetBool("Spinning", false);
             m_Animator.SetBool("Death", true);
             dead = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(attackTimer <= 0)
+        {
+            if (other.name == "Player_1" || other.name == "Player_2")
+            {
+                other.SendMessage("hurtFunction", damage);
+            }
+            attackTimer = attackCooldown;
         }
     }
 
