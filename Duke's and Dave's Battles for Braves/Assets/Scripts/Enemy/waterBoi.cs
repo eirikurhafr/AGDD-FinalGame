@@ -24,6 +24,8 @@ public class waterBoi : MonoBehaviour {
     private float attackAirCooldown = 2.7f;
     private bool dead = false;
     public float attackTimer;
+    private float checkTimer;
+    private float realCheckTimer = 1;
 
 
     private void Start()
@@ -58,6 +60,15 @@ public class waterBoi : MonoBehaviour {
         {
             if (target != null)
             {
+                if (realCheckTimer <= 0)
+                {
+                    findClosest();
+                    realCheckTimer = checkTimer;
+                }
+                else {
+                    realCheckTimer -= Time.deltaTime;
+                }
+                    
                 agent.SetDestination(target.position);
                 if (attackTimer <= 0)
                 {

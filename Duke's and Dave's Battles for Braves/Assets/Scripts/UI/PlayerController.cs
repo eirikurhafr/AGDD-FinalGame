@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour {
     private Collider inUseInteract;
     private Rigidbody inUseRB;
     private bool attached = false;
+    private bool heal = false;
     public GameObject objectInUse;
     public GameObject attachPoint;
     public float health;
@@ -103,8 +104,14 @@ public class PlayerController : MonoBehaviour {
             realDeathTimer -= Time.deltaTime;
             if(realDeathTimer < 0)
             {
-                dead = false;
+                health++;
+                realDeathTimer = deathTimer;
+            }
+
+            if(health >= 100)
+            {
                 health = 100;
+                dead = false;
                 userControl.dead = false;
                 m_Animator.SetBool("Death", false);
             }
@@ -199,12 +206,9 @@ public class PlayerController : MonoBehaviour {
                     oldDistanceInteract = newDistance;
                 }
             }
-            else if(hitColliders[i].tag == "Player")
+            else if(hitColliders[i].tag == otherPlayer.tag && otherPlayer.dead)
             {
-                if(otherPlayer.crouching == true)
-                {
-                    superJump = true;
-                }
+                heal = true;
             }
         }
     }
@@ -248,6 +252,12 @@ public class PlayerController : MonoBehaviour {
                 m_Animator.SetBool("Interact", interact);
                 inUseInteract.SendMessage("Use", this);
                 userControl.lockMovement = true;
+            }
+            else if(heal)
+            {
+                heal = false;
+                m_Animator.SetBool("PickUp", true);
+                otherPlayer.health += 5;
             }
             inUseInteract = null;
         }

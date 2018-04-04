@@ -20,7 +20,7 @@ public class StartBossFight : MonoBehaviour {
 	
 	void OnTriggerEnter(Collider collision)
     {
-        if(first)
+        if(first && (collision.tag == "Player_1" || collision.tag == "Player_2"))
         {
             music.SetActive(false);
             bossMusic.SetActive(true);
