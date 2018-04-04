@@ -44,7 +44,7 @@ public class SpinningEnemy : MonoBehaviour {
 
     public void findClosest()
     {
-        float oldDistance = 10f;
+        float oldDistance = 30f;
         foreach (UserControl player in targetsToKill)
         {
             float newDistance = Vector3.Distance(player.transform.position, transform.position);

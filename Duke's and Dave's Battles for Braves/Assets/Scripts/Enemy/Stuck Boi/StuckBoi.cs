@@ -5,7 +5,7 @@ using UnityEngine;
 public class StuckBoi : MonoBehaviour {
 
     private Transform target;                                    // target to aim for
-    public UserControl[] targetsToKill;
+    private UserControl[] targetsToKill = new UserControl[2];
     public Transform prefab;
     public float health = 4;
     private bool vulnerable = false;
@@ -15,7 +15,7 @@ public class StuckBoi : MonoBehaviour {
     private float battleDistance = 5f;
     private float m_AnimationSpeedPunch = 0.5f;
     private float m_Animation = 1f;
-    private float groundPoundChance = 4;
+    private float groundPoundChance = 1;
     private float attackCooldown = 0.6f;
     private float attackAirCooldown = 2.7f;
     private float attackDifficulty = 4f;
@@ -29,6 +29,8 @@ public class StuckBoi : MonoBehaviour {
     private void Start()
     {
         m_Animator = GetComponent<Animator>();
+        targetsToKill[0] = GameObject.Find("Player_1").GetComponent<UserControl>();
+        targetsToKill[1] = GameObject.Find("Player_2").GetComponent<UserControl>();
         findClosest();
     }
 
@@ -86,7 +88,7 @@ public class StuckBoi : MonoBehaviour {
         }
     }
 
-    private void explosion()
+    private void Explosion()
     {
         if (!vulnerable)
         {
@@ -118,7 +120,7 @@ public class StuckBoi : MonoBehaviour {
 
     public void levelUp()
     {
-        
+        groundPoundChance++;
     }
 
     public void doAttack()

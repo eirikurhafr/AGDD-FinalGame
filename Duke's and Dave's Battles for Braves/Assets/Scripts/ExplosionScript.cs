@@ -23,27 +23,16 @@ public class ExplosionScript : MonoBehaviour {
         source.PlayOneShot(explosion, volume);
         Destroy(gameObject, 1);
     }
-	
-    void Update()
-    {
-        if (deathTimer <= 0)
-        {
-            Destroy(gameObject);
-        }
-        deathTimer -= Time.deltaTime;
-    }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player_1" && !hitP1)
+        if (other.tag == "Player_1" || other.tag == "Player_2")
         {
-            hitP1 = true;
             other.SendMessage("hurtFunction", damage);
         }
-        else if (other.tag == "Player_2" && !hitP2)
+        else
         {
-            hitP2 = true;
-            other.SendMessage("hurtFunction", damage);
+            other.SendMessage("Explosion");
         }
     }
 }
