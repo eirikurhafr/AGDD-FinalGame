@@ -34,5 +34,6 @@ public class ExplosionScript : MonoBehaviour {
         {
             other.SendMessage("Explosion");
         }
+        other.gameObject.SendMessage("explosionFunction");
     }
 }
