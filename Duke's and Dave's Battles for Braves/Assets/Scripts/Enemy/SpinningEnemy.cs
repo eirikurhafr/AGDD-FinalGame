@@ -7,7 +7,7 @@ public class SpinningEnemy : MonoBehaviour {
     public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
     public Character character { get; private set; } // the character we are controlling
     private Transform target;                                    // target to aim for
-    public UserControl[] targetsToKill;
+    private UserControl[] targetsToKill = new UserControl[2];
     public GameObject sword;
     public GameObject explosion;
     public float health = 100;
@@ -34,6 +34,8 @@ public class SpinningEnemy : MonoBehaviour {
         agent.updateRotation = false;
         agent.updatePosition = true;
         sound = GetComponent<SpinningSoundController>();
+        targetsToKill[0] = GameObject.Find("Player_1").GetComponent<UserControl>();
+        targetsToKill[1] = GameObject.Find("Player_2").GetComponent<UserControl>();
         m_Animator = GetComponent<Animator>();
         findClosest();
         m_Animator.SetBool("Spinning", true);
