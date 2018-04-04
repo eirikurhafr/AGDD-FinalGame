@@ -2568,15 +2568,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0912c8105656e24f93b3a06533ea10d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetsToKill:
-  - {fileID: 0}
-  - {fileID: 0}
   sword: {fileID: 1899754653807778}
   explosion: {fileID: 1426787400622342, guid: a10bc5cb43977d9409db9c5fbb4aa8fb, type: 2}
   health: 100
   damageSpawner: {fileID: 114584956370474130}
   dead: 0
-  attackTimer: 0.5
   damage: 5
 --- !u!114 &114335363684376444
 MonoBehaviour:
@@ -2703,7 +2699,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1100146830110590}
   m_Material: {fileID: 13400000, guid: c2815a7ab32e42c4bb42f59caacb8ec1, type: 2}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.3
   m_Height: 0.75
