@@ -33,9 +33,7 @@ public class WaterDumper : MonoBehaviour {
     void Use() {
         if (waterAmmount >= 100f) {
             GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            print("1" + cube.transform.position);
             cube.transform.position = StartingPosition;//new Vector3(this.transform.position.x, this.transform.position.y, this.transform.position.y);
-            print("2" + cube.transform.position);
             cube.AddComponent<Rigidbody>();
             cube.gameObject.GetComponent<BoxCollider>().isTrigger = true;
 
