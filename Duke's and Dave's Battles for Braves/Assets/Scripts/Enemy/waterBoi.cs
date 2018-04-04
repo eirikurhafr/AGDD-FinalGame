@@ -138,7 +138,7 @@ public class waterBoi : MonoBehaviour {
             attackTimer = 0f;
             m_Animator.SetBool("Stunned", false);
             levelUp();
-            if (health < 0)
+            if (health <= 0)
             {
                 m_Animator.SetBool("Death", true);
                 dead = true;
