@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class StopThrowNPC : MonoBehaviour {
     public GameObject[] activate;
+    public bool done = false;
     public Text textBox;
 
     void OnCollisionEnter(Collision theCollision)
@@ -18,5 +19,6 @@ public class StopThrowNPC : MonoBehaviour {
         {
             thing.SetActive(true);
         }
+        done = true;
     }
 }

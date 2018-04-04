@@ -109,9 +109,16 @@ public class StuckBoi : MonoBehaviour {
             delayTimer = 0f;
             m_Animator.SetBool("Stunned", false);
             levelUp();
-            if (health < 0)
+            if (health <= 0)
             {
                 m_Animator.SetBool("Death", true);
+
+                Vector3 deadRotate;
+                deadRotate.x = -152.4055f;
+                deadRotate.y = 0;
+                deadRotate.z = -220.0102f;
+                transform.rotation = Quaternion.LookRotation(deadRotate);
+
                 dead = true;
             }
 

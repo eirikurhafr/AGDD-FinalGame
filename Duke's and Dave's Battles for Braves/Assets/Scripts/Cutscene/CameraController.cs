@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 
 public class CameraController : MonoBehaviour {
@@ -16,6 +17,7 @@ public class CameraController : MonoBehaviour {
     private bool finished = false;
     public GameObject[] puppets;
     public GameObject[] disableBois;
+    public bool gameOver = false;
 
     // Use this for initialization
     void Start () {
@@ -48,19 +50,26 @@ public class CameraController : MonoBehaviour {
         }
         else
         {
-            camerasToSignal[index - 1].enabled = false;
-            mainCamera.enabled = true;
-            UICanvas.enabled = true;
-            DialougeCanvas.enabled = false;
-            foreach (GameObject puppet in puppets)
+            if(!gameOver)
             {
-                puppet.SetActive(false);
+                camerasToSignal[index - 1].enabled = false;
+                mainCamera.enabled = true;
+                UICanvas.enabled = true;
+                DialougeCanvas.enabled = false;
+                foreach (GameObject puppet in puppets)
+                {
+                    puppet.SetActive(false);
+                }
+                foreach (GameObject puppet in disableBois)
+                {
+                    puppet.SetActive(true);
+                }
+                finished = true;
             }
-            foreach (GameObject puppet in disableBois)
+            else
             {
-                puppet.SetActive(true);
+                SceneManager.LoadScene("menuScene");
             }
-            finished = true;
         }
     }
 
