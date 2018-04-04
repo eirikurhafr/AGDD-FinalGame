@@ -2568,9 +2568,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0912c8105656e24f93b3a06533ea10d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetsToKill:
-  - {fileID: 0}
-  - {fileID: 0}
   sword: {fileID: 1899754653807778}
   explosion: {fileID: 1426787400622342, guid: a10bc5cb43977d9409db9c5fbb4aa8fb, type: 2}
   health: 100
