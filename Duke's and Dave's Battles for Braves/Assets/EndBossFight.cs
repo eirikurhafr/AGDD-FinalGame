@@ -7,6 +7,10 @@ public class EndBossFight : MonoBehaviour {
     public GameObject[] activates;
     private GameObject music;
     public GameObject bossMusic;
+    public GameObject cutscene;
+    bool once = false;
+    bool once2 = false;
+    float timer = 2f;
 
     private void Start()
     {
@@ -15,10 +19,11 @@ public class EndBossFight : MonoBehaviour {
 
     private void Update()
     {
-        if(boss.health == 0)
+        if(boss.health == 0 && !once)
         {
             Go();
             ChangeMusic();
+            once = true;
         }
     }
 
@@ -27,8 +32,8 @@ public class EndBossFight : MonoBehaviour {
         foreach(GameObject dot in activates)
         {
             dot.SendMessage("Use");
-            dot.SendMessage("Go");
         }
+        cutscene.SetActive(true);
     }
 
     void ChangeMusic()

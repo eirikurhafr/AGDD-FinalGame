@@ -7,7 +7,7 @@ public class waterBoi : MonoBehaviour {
     public UnityEngine.AI.NavMeshAgent agent { get; private set; }             // the navmesh agent required for the path finding
     public Character character { get; private set; } // the character we are controlling
     private Transform target;                                    // target to aim for
-    public UserControl[] targetsToKill;
+    private UserControl[] targetsToKill = new UserControl[2];
     public Transform prefab;
     public float health = 4;
     private bool vulnerable = false;
@@ -37,6 +37,8 @@ public class waterBoi : MonoBehaviour {
         agent.updateRotation = false;
         agent.updatePosition = true;
         m_Animator = GetComponent<Animator>();
+        targetsToKill[0] = GameObject.Find("Player_1").GetComponent<UserControl>();
+        targetsToKill[1] = GameObject.Find("Player_2").GetComponent<UserControl>();
         findClosest();
     }
 
