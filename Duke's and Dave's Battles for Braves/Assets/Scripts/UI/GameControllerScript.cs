@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class GameControllerScript : MonoBehaviour {
 
@@ -25,7 +23,7 @@ public class GameControllerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(Input.GetKeyDown(EscButton))
+		if(CrossPlatformInputManager.GetButtonDown(EscButton))
         {
             if(check) {
                 Time.timeScale = 0;
@@ -48,7 +46,6 @@ public class GameControllerScript : MonoBehaviour {
 
     public void returnToGame()
     {
-        Debug.Log("DAAAAH");
         Time.timeScale = 1;
         fullCanvas.SetActive(false);
         otherCanvas.SetActive(true);
