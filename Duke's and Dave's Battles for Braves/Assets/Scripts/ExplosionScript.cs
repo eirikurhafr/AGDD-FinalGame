@@ -45,5 +45,6 @@ public class ExplosionScript : MonoBehaviour {
             hitP2 = true;
             other.SendMessage("hurtFunction", damage);
         }
+        other.gameObject.SendMessage("explosionFunction");
     }
 }
