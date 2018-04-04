@@ -40,7 +40,7 @@ public class WaterDumper : MonoBehaviour {
             cube.gameObject.GetComponent<BoxCollider>().isTrigger = true;
 
             cube.gameObject.GetComponent<Renderer>().material = material;
-           // cube.gameObject.AddComponent<waterblobBehaviour>();
+            cube.gameObject.AddComponent<waterblobBehaviour>();
             waterAmmount = 0f;
         }
     }

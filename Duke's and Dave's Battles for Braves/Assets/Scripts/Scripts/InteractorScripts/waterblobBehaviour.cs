@@ -17,7 +17,7 @@ public class waterblobBehaviour : MonoBehaviour {
 	}
 
     void OnTriggerEnter(Collider other) {
-        other.SendMessage("makeWet");
+        other.SendMessage("spillWater");
     }
 
 }
