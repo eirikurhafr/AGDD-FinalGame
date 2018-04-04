@@ -21,13 +21,15 @@ GameObject:
   - component: {fileID: 4376535474360800}
   - component: {fileID: 33644848797005530}
   - component: {fileID: 23253708202904570}
+  - component: {fileID: 65119190971378872}
+  - component: {fileID: 114961296925168764}
   m_Layer: 0
   m_Name: Very Good Permit of Nice Traveling
-  m_TagString: Pickup
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4376535474360800
 Transform:
   m_ObjectHideFlags: 1
@@ -35,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1820001271963634}
   m_LocalRotation: {x: 0.64852905, y: 0.329587, z: -0.31085888, w: 0.61167747}
-  m_LocalPosition: {x: 0.04199833, y: 0.7619993, z: -17.938002}
+  m_LocalPosition: {x: 0.04199833, y: 0.615, z: -17.938002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -82,3 +84,26 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1820001271963634}
   m_Mesh: {fileID: 4300000, guid: 43cd332be7f713642ad1f12c1639c0a8, type: 3}
+--- !u!65 &65119190971378872
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1820001271963634}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.7835548, y: 0.11559614, z: 0.4961448}
+  m_Center: {x: -0.00000093785513, y: 0.056651525, z: 0.19084711}
+--- !u!114 &114961296925168764
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1820001271963634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d68a367057eaaba4fb6a014c8a7561fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

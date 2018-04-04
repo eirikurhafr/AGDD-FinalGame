@@ -21,10 +21,10 @@ GameObject:
   - component: {fileID: 4551041019822540}
   - component: {fileID: 33245127065462286}
   - component: {fileID: 23177213898325304}
-  - component: {fileID: 65507098630134996}
   - component: {fileID: 65392195406789664}
   - component: {fileID: 54130582162849738}
   - component: {fileID: 114978207786443510}
+  - component: {fileID: 135168343645854536}
   m_Layer: 0
   m_Name: Breakable_Ice
   m_TagString: Untagged
@@ -113,18 +113,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.9051708, y: 0.1776944, z: 1.7184765}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &65507098630134996
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1801287024102584}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.9051708, y: 0.1776944, z: 1.7184765}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114978207786443510
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -137,3 +125,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scroll: {fileID: 0}
+  spawnObject: {fileID: 1100146830110590, guid: 75e02e60502e19c4cbf505a0cd8842b1,
+    type: 2}
+--- !u!135 &135168343645854536
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1801287024102584}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 14
+  m_Center: {x: 0, y: 0, z: 0}
