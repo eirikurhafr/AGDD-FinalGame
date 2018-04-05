@@ -26,6 +26,8 @@ public class waterBoi : MonoBehaviour {
     public float attackTimer;
     private float checkTimer;
     private float realCheckTimer = 1;
+    private PlayerController player1;
+    private PlayerController player2;
 
 
     private void Start()
@@ -33,6 +35,8 @@ public class waterBoi : MonoBehaviour {
         // get the components on the object we need ( should not be null due to require component so no need to check )
         agent = GetComponentInChildren<UnityEngine.AI.NavMeshAgent>();
         character = GetComponent<Character>();
+        player1 = GameObject.Find("Player_1").GetComponent<PlayerController>();
+        player2 = GameObject.Find("Player_2").GetComponent<PlayerController>();
         agent.stoppingDistance = -1f;
         agent.updateRotation = false;
         agent.updatePosition = true;
@@ -144,6 +148,8 @@ public class waterBoi : MonoBehaviour {
             {
                 m_Animator.SetBool("Death", true);
                 dead = true;
+                player1.health = 100;
+                player2.health = 100;
             }
 
         }
